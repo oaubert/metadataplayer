@@ -23,9 +23,12 @@
     z-index: 1;
 }
 
+.Ldt-SlideVideoPlayer-pip-main .Ldt-ImageDisplay-Container {
+    min-height: 30vw;
+}
 .Ldt-SlideVideoPlayer-pip-pip {
     position: absolute;
-    width: 30%;
+    width: 30% !important;
     height: 30%;
     right: 2px;
     bottom: 2px;
