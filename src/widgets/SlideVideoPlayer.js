@@ -43,7 +43,7 @@ IriSP.Widgets.SlideVideoPlayer.prototype.draw = function() {
     );
 
     if (_this.mode == 'pip') {
-        _this.$.find(".Ldt-SlideVideoPlayer-panel").append('<div class="Ldt-SlideVideoPlayer-pip-menu"><div class="Ldt-SlideVideoPlayer-pip-menu-toggle"></div></div>');
+        _this.$.find(".Ldt-SlideVideoPlayer").append('<div class="Ldt-SlideVideoPlayer-pip-menu"><div class="Ldt-SlideVideoPlayer-pip-menu-toggle"></div></div>');
         _this.$.on("click", ".Ldt-SlideVideoPlayer-pip-menu-toggle", function () {
             _this.toggleMainDisplay();
         });

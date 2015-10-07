@@ -40,12 +40,12 @@
 }
 .Ldt-SlideVideoPlayer-pip-menu {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    bottom: 2px;
+    right: 2px;
     z-index: 10;
     display: none;
 }
-.Ldt-SlideVideoPlayer-pip-pip:hover .Ldt-SlideVideoPlayer-pip-menu {
+.Ldt-SlideVideoPlayer:hover .Ldt-SlideVideoPlayer-pip-menu {
     background-color: #000;
     opacity: .5;
     display: inline-block;
