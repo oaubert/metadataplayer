@@ -2,14 +2,14 @@
 - add callbacks
  */
 
-IriSP.Widgets.EnrichedPlan = function(player, config) {
+IriSP.Widgets.EnrichedPlan = function (player, config) {
     IriSP.Widgets.Widget.call(this, player, config);
 }
 
 IriSP.Widgets.EnrichedPlan.prototype = new IriSP.Widgets.Widget();
 
 IriSP.Widgets.EnrichedPlan.prototype.defaults = {
-    // Main type for slide segmentation
+    // Main type for toc segmentation
     annotation_type: "Slides",
     // If no annotation type list is specified, use all other types
     annotation_types: [],
@@ -48,26 +48,26 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
 
 IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span></div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.draw = function() {
+IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
     var _this = this;
     // Generate a unique prefix, so that ids of input fields
     // (necessary for label association) are unique too.
     _this.prefix = "TODO";
     // slides content: title, level (for toc)
-    var _slides = this.getWidgetAnnotations().sortBy(function(_annotation) {
+    var _slides = this.getWidgetAnnotations().sortBy(function (_annotation) {
         return _annotation.begin;
     });
     // All other annotations
-    var _annotations = this.media.getAnnotations().filter( function (a) {
+    var _annotations = this.media.getAnnotations().filter(function (a) {
         return a.getAnnotationType().title != _this.annotation_type;
-    }).sortBy(function(_annotation) {
+    }).sortBy(function (_annotation) {
         return _annotation.begin;
     });
 
     // Reference annotations in each slide: assume that end time is
     // correctly set.
-    _slides.forEach( function (slide) {
-        slide.annotations = _annotations.filter( function (a) {
+    _slides.forEach(function (slide) {
+        slide.annotations = _annotations.filter(function (a) {
             return a.begin >= slide.begin && a.begin <= slide.end;
         });
     });
@@ -81,7 +81,7 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function() {
         return a.title.indexOf('Anonyme') < 0 ? "Own" : "Other";
     };
 
-    _slides.forEach(function(slide) {
+    _slides.forEach(function (slide) {
         var _html = Mustache.to_html(_this.slideTemplate, {
             id : slide.id,
             atitle : IriSP.textFieldHtml(slide.title),
@@ -90,7 +90,7 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function() {
             begintc: slide.begin.milliseconds,
             thumbnail: slide.thumbnail,
             show_slides: _this.show_slides,
-            notes: slide.annotations.map( function (a) {
+            notes: slide.annotations.map(function (a) {
                 return Mustache.to_html(_this.annotationTemplate, {
                     id: a.id,
                     text: IriSP.textFieldHtml(a.description || a.title),
@@ -100,9 +100,9 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function() {
                     atitle: a.title.slice(0, 20),
                     // FIXME: Temporary hack waiting for a proper metadata definition
                     category: "Ldt-EnrichedPlan-Note-" + note_category(a),
-                    filtered: ( (note_category(a) == 'Own' && ! _this.show_own_notes)
-                                || (note_category(a) == 'Other' && ! _this.show_other_notes)
-                                || (note_category(a) == 'Teacher' && ! _this.show_teacher_notes) ) ? 'filtered_out' : ''
+                    filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
+                                || (note_category(a) == 'Other' && !_this.show_other_notes)
+                                || (note_category(a) == 'Teacher' && !_this.show_teacher_notes)) ? 'filtered_out' : ''
                 });
             }).join("\n")
         });
@@ -115,25 +115,27 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function() {
     });
 
     container.on("click", ".Ldt-EnrichedPlan-Control-Checkbox", function () {
-        var classname = _.first(_.filter(this.classList, function (s) { return s != "Ldt-EnrichedPlan-Control-Checkbox"; }));
+        var classname = _.first(_.filter(this.classList, function (s) {
+            return s != "Ldt-EnrichedPlan-Control-Checkbox";
+        }));
         if (classname !== undefined) {
-            if ($(this).is(':checked')) {
+            if (IriSP.jQuery(this).is(':checked')) {
                 content.find(".Ldt-EnrichedPlan-Slide ." + classname).removeClass("filtered_out");
             } else {
                 content.find(".Ldt-EnrichedPlan-Slide ." + classname).addClass("filtered_out");
-             }
+            }
         }
 
     });
 
     container.find(".Ldt-EnrichedPlan-Search-Input").on("search", function () {
-        var q = $(this).val().toLocaleLowerCase();
+        var q = IriSP.jQuery(this).val().toLocaleLowerCase();
         if (q === "") {
             // Show all
             content.find(".Ldt-EnrichedPlan-Note").removeClass("non_matching");
         } else {
-            $(".Ldt-EnrichedPlan-Note").each( function () {
-                var node = $(this);
+            content.find(".Ldt-EnrichedPlan-Note").each(function () {
+                var node = IriSP.jQuery(this);
                 if (node.text().toLocaleLowerCase().indexOf(q) > -1) {
                     node.removeClass("non_matching");
                 } else {
