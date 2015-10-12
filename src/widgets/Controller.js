@@ -35,7 +35,7 @@ IriSP.Widgets.Controller.prototype.template =
     + '<div class="Ldt-Ctrl-Quiz-Create Ldt-TraceMe" ></div>'
     + '</div>'
     + '<div class="Ldt-Ctrl-Right">'
-    + '{{^disable_fullscreen}}<div class="Ldt-Ctrl-Fullscreen-Button Ldt-TraceMe" title="Passer le lecteur en plein-écran"></div{{/disable_fullscreen}}'
+    + '{{^disable_fullscreen}}<div class="Ldt-Ctrl-Fullscreen-Button Ldt-TraceMe" title="Passer le lecteur en plein-écran"></div>{{/disable_fullscreen}}'
     + '<div class="Ldt-Ctrl-spacer"></div>'
     + '<div class="Ldt-Ctrl-Time">'
     + '<div class="Ldt-Ctrl-Time-Elapsed" title="{{l10n.elapsed_time}}">00:00</div>'
