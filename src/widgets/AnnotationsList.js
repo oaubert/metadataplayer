@@ -117,21 +117,18 @@ IriSP.Widgets.AnnotationsList.prototype.defaults = {
 
 IriSP.Widgets.AnnotationsList.prototype.importUsers = function () {
     if (!this.source.users_data && this.api_users_endpoint) {
-        this.usernames = Array();
         var _this = this,
-            _list = this.getWidgetAnnotations(),
             usernames_list_string = "";
 
-        _list.forEach(function (_annotation) {
-            if (_this.usernames.indexOf(_annotation.creator) == -1) {
-                _this.usernames.push(_annotation.creator);
-            };
+        this.usernames = IriSP._.unique(this.getWidgetAnnotations(), function (a) {
+            return a.creator;
         });
-        this.usernames.forEach(function (_username) {
-            usernames_list_string += _username + ",";
+
+        usernames_list_string = this.usernames.join(",");
+        var _url = Mustache.to_html(this.api_users_endpoint, {
+            usernames_list_string: encodeURIComponent(usernames_list_string),
+            usernames_list_length: this.usernames.length
         });
-        usernames_list_string = usernames_list_string.substring(0, usernames_list_string.length - 1);
-        var _url = Mustache.to_html(this.api_users_endpoint, {usernames_list_string: encodeURIComponent(usernames_list_string), usernames_list_length: this.usernames.length});
         return IriSP.jQuery.ajax({
             async: false,
             url: _url,
