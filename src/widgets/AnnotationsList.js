@@ -595,6 +595,7 @@ IriSP.Widgets.AnnotationsList.prototype.refresh = function (_forceRedraw) {
                 show_publish: _this.show_publish,
                 show_creator: _this.show_creator,
                 show_twitter: _this.show_twitter,
+                show_title: _this.show_title,
                 twitter_param: IriSP.jQuery.param({ url: _url, text: IriSP.textFieldHtml(_title) + (_this.twitter_hashtag ? ' #' + _this.twitter_hashtag : "") }),
                 allow_annotations_deletion: _this.allow_annotations_deletion
             };
