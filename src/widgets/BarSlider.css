@@ -9,7 +9,6 @@
     background-color: black;
     background-image: none;
     border: none;
-    border-bottom: 1px dashed #666;
     position: relative;
     border-radius: 0;
 }
@@ -73,7 +72,7 @@
     position: absolute;
     top: 14px;
     left: 4px;
-    width: 0px;
+    width: 0;
     height: 8px;
 }
 .Ldt-BarSlider .rightarrow {
@@ -93,7 +92,7 @@
 .Ldt-BarSlider-currentbarhead {
     position: absolute;
     top: 15px;
-    left: 0px;
+    left: 4px;
 }
 .Ldt-BarSlider-barmark {
     width: 1px;
