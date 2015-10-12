@@ -11,6 +11,7 @@ IriSP.Widgets.Controller.prototype.defaults = {
     disable_annotate_btn: false,
     disable_search_btn: false,
     disable_ctrl_f: false,
+    disable_fullscreen : true,
     always_show_search: false,
     enable_quiz_toggle: undefined
 };
@@ -34,7 +35,7 @@ IriSP.Widgets.Controller.prototype.template =
     + '<div class="Ldt-Ctrl-Quiz-Create Ldt-TraceMe" ></div>'
     + '</div>'
     + '<div class="Ldt-Ctrl-Right">'
-    + '<div class="Ldt-Ctrl-Fullscreen-Button Ldt-TraceMe" title="Passer le lecteur en plein-écran"></div>'
+    + '{{^disable_fullscreen}}<div class="Ldt-Ctrl-Fullscreen-Button Ldt-TraceMe" title="Passer le lecteur en plein-écran"></div{{/disable_fullscreen}}'
     + '<div class="Ldt-Ctrl-spacer"></div>'
     + '<div class="Ldt-Ctrl-Time">'
     + '<div class="Ldt-Ctrl-Time-Elapsed" title="{{l10n.elapsed_time}}">00:00</div>'
@@ -104,20 +105,20 @@ IriSP.Widgets.Controller.prototype.draw = function() {
 
     if (this.enable_quiz_toggle !== undefined) {
         if (this.enable_quiz_toggle) {
-            $(".Ldt-Ctrl-Quiz-Enable").addClass("Ldt-Ctrl-Quiz-Toggle-Active");
-            $(".Ldt-Ctrl-Quiz-Create").addClass("Ldt-Ctrl-Quiz-Toggle-Active");
+            this.$.find(".Ldt-Ctrl-Quiz-Enable").addClass("Ldt-Ctrl-Quiz-Toggle-Active");
+            this.$.find(".Ldt-Ctrl-Quiz-Create").addClass("Ldt-Ctrl-Quiz-Toggle-Active");
             // this.player.trigger("QuizCreator.show");
-            $("#QuizEditContainer").show();
+            this.$.find("#QuizEditContainer").show();
         }
         else
         {
-            $(".Ldt-Ctrl-Quiz-Enable").removeClass("Ldt-Ctrl-Quiz-Toggle-Active");
-            $(".Ldt-Ctrl-Quiz-Create").removeClass("Ldt-Ctrl-Quiz-Toggle-Active");
+            this.$.find(".Ldt-Ctrl-Quiz-Enable").removeClass("Ldt-Ctrl-Quiz-Toggle-Active");
+            this.$.find(".Ldt-Ctrl-Quiz-Create").removeClass("Ldt-Ctrl-Quiz-Toggle-Active");
             this.player.trigger("QuizCreator.hide");
-            $("#QuizEditContainer").hide();
+            this.$.find("#QuizEditContainer").hide();
         }
     } else {
-            $(".Ldt-Ctrl-Quiz-Enable").hide();
+            this.$.find(".Ldt-Ctrl-Quiz-Enable").hide();
     }
 
     this.$.find(".Ldt-Ctrl-Annotate").click(function() {
