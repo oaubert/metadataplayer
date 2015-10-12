@@ -570,7 +570,7 @@ IriSP.Widgets.AnnotationsList.prototype.refresh = function (_forceRedraw) {
             var _created = false;
             var _tags;
             if (_this.show_creation_date) {
-                _created = _annotation.created.toLocaleDateString()+", "+_annotation.created.toLocaleTimeString().replace(/\u200E/g, '').replace(/^([^\d]*\d{1,2}:\d{1,2}):\d{1,2}([^\d]*)$/, '$1$2');;
+                _created = _annotation.created.toLocaleDateString() + ", " + _annotation.created.toLocaleTimeString().replace(/\u200E/g, '').replace(/^([^\d]*\d{1,2}:\d{1,2}):\d{1,2}([^\d]*)$/, '$1$2');;
             }
             if (this.tags == true) {
                 _tags = _annotation.getTagTexts();
