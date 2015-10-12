@@ -4,7 +4,7 @@
 
 IriSP.Widgets.EnrichedPlan = function (player, config) {
     IriSP.Widgets.Widget.call(this, player, config);
-}
+};
 
 IriSP.Widgets.EnrichedPlan.prototype = new IriSP.Widgets.Widget();
 
@@ -18,7 +18,7 @@ IriSP.Widgets.EnrichedPlan.prototype.defaults = {
     show_teacher_notes: true,
     show_other_notes: true,
     show_own_notes: true
-}
+};
 
 IriSP.Widgets.EnrichedPlan.prototype.template =
       '<div class="Ldt-EnrichedPlan-Container">'
