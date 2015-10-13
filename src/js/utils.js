@@ -32,7 +32,7 @@ IriSP.loadCss = function(_cssFile) {
 IriSP.textFieldHtml = function(_text, _regexp, _extend) {
     var list = [],
         positions = [],
-        text = _text.replace(/(^\s+|\s+$)/g,'');
+        text = _text.trim();
 
     function addToList(_rx, _startHtml, _endHtml) {
         while(true) {
