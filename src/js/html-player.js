@@ -15,7 +15,8 @@ IriSP.htmlPlayer = function (media, jqselector, options) {
         width : opts.width || undefined,
         height : opts.height || undefined,
         controls : opts.controls || undefined,
-        autoplay : opts.autostart || opts.autoplay || undefined
+        autoplay : opts.autostart || opts.autoplay || undefined,
+        preload: "metadata"
     });
 
     if (typeof videoURL === "string") {
