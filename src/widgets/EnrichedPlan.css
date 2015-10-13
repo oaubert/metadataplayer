@@ -128,6 +128,9 @@
     font-size: 16px;
     width: calc(100% - 340px);
 }
+.Ldt-EnrichedPlan-Controls .Ldt-EnrichedPlan-Search-Input-Full {
+    width: 95%;
+}
 
 .Ldt-EnrichedPlan-Note.non_matching {
     display: none;

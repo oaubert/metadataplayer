@@ -22,7 +22,8 @@ IriSP.Widgets.EnrichedPlan.prototype.defaults = {
 
 IriSP.Widgets.EnrichedPlan.prototype.template =
       '<div class="Ldt-EnrichedPlan-Container">'
-    + '{{#show_controls}}<form class="Ldt-EnrichedPlan-Controls">'
+    + '<form class="Ldt-EnrichedPlan-Controls">'
+    + '{{#show_controls}}'
     + ' <input id="{{prefix}}teacher_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Teacher" {{#show_teacher_notes}}checked{{/show_teacher_notes}} type="checkbox">'
     + ' <label for="{{prefix}}teacher_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Teacher">Notes Enseignant</label>'
     + ' <input id="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Other" {{#show_other_notes}}checked{{/show_other_notes}} type="checkbox">'
@@ -31,8 +32,9 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + ' <label for="{{prefix}}simplified_plan_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Own">Notes perso.</label>'
     + ' <input id="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Slide-Display" {{#show_slides}}checked{{/show_slides}} type="checkbox">'
     + ' <label for="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Slide-Display">Diapo<br/>&nbsp;</label>'
-    + ' </form>{{/show_controls}}'
-    + ' <input class="Ldt-EnrichedPlan-Search-Input" type="search" incremental placeholder="Recherchez"/>'
+    + '{{/show_controls}}'
+    + ' <input class="Ldt-EnrichedPlan-Search-Input {{^show_controls}}Ldt-EnrichedPlan-Search-Input-Full{{/show_controls}}" type="search" incremental placeholder="Recherchez"/>'
+    + ' </form>'
     + '<div class="Ldt-EnrichedPlan-Content"></div>'
     + '</div>';
 
