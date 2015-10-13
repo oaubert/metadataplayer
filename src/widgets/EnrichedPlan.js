@@ -98,7 +98,7 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
         var _html = Mustache.to_html(_this.slideTemplate, {
             id : slide.id,
             atitle : IriSP.textFieldHtml(slide.title),
-            level: slide.content.level || 1,
+            level: slide.content ? (slide.content.level || 1) : 1,
             begin : slide.begin.toString(),
             begintc: slide.begin.milliseconds,
             thumbnail: slide.thumbnail,
