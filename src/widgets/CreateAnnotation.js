@@ -515,7 +515,11 @@ IriSP.Widgets.CreateAnnotation.prototype.onSubmit = function () {
     if (this.show_title_field) {
         /* Title field, only if it's visible */
         _annotation.title = this.$.find(".Ldt-CreateAnnotation-Title").val();
+    } else {
+        /* Else we use the first line of the description as title */
+        _annotation.title = _annotation.description.split("\n")[0];
     }
+
     if (this.project_id != "") {
         /* Project id, only if it's been specifiec in the config */
         _annotation.project_id = this.project_id;
