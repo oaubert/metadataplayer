@@ -7,6 +7,8 @@ IriSP.Widgets.CocoController = function (player, config) {
 IriSP.Widgets.CocoController.prototype = new IriSP.Widgets.Widget();
 
 IriSP.Widgets.CocoController.prototype.defaults = {
+    // Selector for the widget that needs to be fullscreened
+    fullscreen_widget: undefined
 };
 
 IriSP.Widgets.CocoController.prototype.template =
@@ -23,9 +25,10 @@ IriSP.Widgets.CocoController.prototype.template =
     + '       <div class="Ldt-CocoCtrl-button Ldt-CocoCtrl-Facebook-Button Ldt-TraceMe" title="{{l10n.share_facebook}}"></div>'
     + '   </div>'
     + '   <div class="Ldt-CocoCtrl-button Ldt-CocoCtrl-Fullscreen-Button Ldt-TraceMe" title="{{l10n.fullscreen}}"></div>'
-    + '   <div class="Ldt-CocoCtrl-button Ldt-CocoCtrl-Sound" title="{{l10n.volume_control}}"></div>'
-    + '   <div class="Ldt-Ctrl-Volume-Control" title="{{l10n.volume_control}}">'
-    + '        <div class="Ldt-Ctrl-Volume-Bar"></div>'
+    + '   <div class="Ldt-CocoCtrl-button Ldt-CocoCtrl-Sound" title="{{l10n.volume_control}}">'
+    + '      <div class="Ldt-CocoCtrl-Volume-Control" title="{{l10n.volume_control}}">'
+    + '          <div class="Ldt-CocoCtrl-Volume-Bar"></div>'
+    + '      </div>'
     + '   </div>'
     + '</div>'
     + '</div>';
@@ -82,11 +85,14 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
     var fullscreen_event_name = IriSP.getFullscreenEventname();
     if (fullscreen_event_name) {
         document.addEventListener(fullscreen_event_name, function () {
-            if (IriSP.isFullscreen() && IriSP.getFullscreenElement() == _this.$[0]) {
-                _this.$.addClass("Ldt-Fullscreen-Element");
-            } else {
-                _this.$.removeClass("Ldt-Fullscreen-Element");
-            }
+            var widget = IriSP.jQuery(_this.fullscreen_widget);
+            if (widget.length) {
+                if (IriSP.isFullscreen() && IriSP.getFullscreenElement() == widget[0]) {
+                    widget.addClass("Ldt-Fullscreen-Element");
+                } else {
+                    widget.removeClass("Ldt-Fullscreen-Element");
+                }
+            };
         });
     };
 
@@ -145,10 +151,13 @@ IriSP.Widgets.CocoController.prototype.playButtonUpdater = function () {
 
 //FullScreen
 IriSP.Widgets.CocoController.prototype.toggleFullscreen = function () {
-    if (IriSP.isFullscreen()) {
-        IriSP.setFullScreen(this.$[0], false);
-    } else {
-        IriSP.setFullScreen(this.$[0], true);
+    var widget = IriSP.jQuery(this.fullscreen_widget);
+    if (widget.length) {
+        if (IriSP.isFullscreen()) {
+            IriSP.setFullScreen(widget[0], false);
+        } else {
+            IriSP.setFullScreen(widget[0], true);
+        }
     }
 };
 
