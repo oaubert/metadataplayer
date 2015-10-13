@@ -13,6 +13,8 @@ IriSP.Widgets.Controller.prototype.defaults = {
     disable_ctrl_f: false,
     disable_fullscreen : true,
     always_show_search: false,
+    // Selector for the widget that needs to be fullscreened
+    fullscreen_widget: undefined,
     enable_quiz_toggle: undefined
 };
 
@@ -134,11 +136,14 @@ IriSP.Widgets.Controller.prototype.draw = function() {
     var fullscreen_event_name = IriSP.getFullscreenEventname();
     if (fullscreen_event_name) {
         document.addEventListener(fullscreen_event_name, function() {
-            if (IriSP.isFullscreen() && IriSP.getFullscreenElement() == _this.$[0]) {
-                _this.$.addClass("Ldt-Fullscreen-Element");
-            } else {
-                _this.$.removeClass("Ldt-Fullscreen-Element");
-            }
+            var widget = IriSP.jQuery(_this.fullscreen_widget);
+            if (widget.length) {
+                if (IriSP.isFullscreen() && IriSP.getFullscreenElement() == widget[0]) {
+                    widget.addClass("Ldt-Fullscreen-Element");
+                } else {
+                    widget.removeClass("Ldt-Fullscreen-Element");
+                }
+            };
         });
     };
 
@@ -246,10 +251,13 @@ IriSP.Widgets.Controller.prototype.playButtonUpdater = function() {
 
 //FullScreen
 IriSP.Widgets.Controller.prototype.toggleFullscreen = function() {
-    if (IriSP.isFullscreen()) {
-        IriSP.setFullScreen(this.$[0], false);
-    } else {
-        IriSP.setFullScreen(this.$[0], true);
+    var widget = IriSP.jQuery(this.fullscreen_widget);
+    if (widget.length) {
+        if (IriSP.isFullscreen()) {
+            IriSP.setFullScreen(widget[0], false);
+        } else {
+            IriSP.setFullScreen(widget[0], true);
+        }
     }
 };
 
