@@ -57,6 +57,17 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
     var _slides = this.getWidgetAnnotations().sortBy(function (_annotation) {
         return _annotation.begin;
     });
+    if (_slides.length == 0) {
+        // No valid segmentation defined. Let's pretend there is a
+        // unique global segment.
+        _slides = [ {
+            id: "whole",
+            title: "Whole video",
+            begin: 0,
+            end: _this.media.duration,
+            thumbnail: ""
+        } ];
+    };
     // All other annotations
     var _annotations = this.media.getAnnotations().filter(function (a) {
         return a.getAnnotationType().title != _this.annotation_type;
