@@ -238,7 +238,7 @@ li.Ldt-AnnotationsList-Tag-Li:hover {
 .Ldt-AnnotationsList-ScreenDelete, .Ldt-AnnotationsList-ScreenSending, 
 .Ldt-AnnotationsList-ScreenError, .Ldt-AnnotationsList-ScreenSuccess{
 	margin-top: 15px;
-	width: 100%
+	width: 100%;
 	text-align: center;
 	vertical-align: middle;
 	font-size: 14px;
