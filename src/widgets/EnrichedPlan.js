@@ -31,8 +31,8 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + ' <label for="{{prefix}}simplified_plan_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Own">Notes perso.</label>'
     + ' <input id="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Slide-Display" {{#show_slides}}checked{{/show_slides}} type="checkbox">'
     + ' <label for="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Slide-Display">Diapo<br/>&nbsp;</label>'
+    + ' </form>{{/show_controls}}'
     + ' <input class="Ldt-EnrichedPlan-Search-Input" type="search" incremental placeholder="Recherchez"/>'
-    + '</form>{{/show_controls}}'
     + '<div class="Ldt-EnrichedPlan-Content"></div>'
     + '</div>';
 
