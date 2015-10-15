@@ -54,7 +54,7 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
     var _this = this;
     // Generate a unique prefix, so that ids of input fields
     // (necessary for label association) are unique too.
-    _this.prefix = "TODO";
+    _this.prefix = IriSP.generateUuid();
     // slides content: title, level (for toc)
     var _slides = this.getWidgetAnnotations().sortBy(function (_annotation) {
         return _annotation.begin;
