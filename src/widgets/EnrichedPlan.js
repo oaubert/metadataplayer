@@ -8,6 +8,17 @@ IriSP.Widgets.EnrichedPlan = function (player, config) {
 
 IriSP.Widgets.EnrichedPlan.prototype = new IriSP.Widgets.Widget();
 
+IriSP.Widgets.EnrichedPlan.prototype.messages = {
+    en: {
+        delete_annotation: "Delete note",
+        confirm_delete_message: "You are about to delete {{ annotation.title }}. Are you sure you want to delete it?"
+    },
+    fr: {
+        delete_annotation: "Supprimer la note",
+        confirm_delete_message: "Vous allez supprimer {{ annotation.title }}. Êtes-vous certain(e) ?"
+    }
+};
+
 IriSP.Widgets.EnrichedPlan.prototype.defaults = {
     // Main type for toc segmentation
     annotation_type: "Slides",
@@ -48,7 +59,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '  </div>'
     + '</div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span></div>';
+IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> <span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Delete"></span></span></div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
     var _this = this;
@@ -139,6 +150,17 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
             }
         }
 
+    });
+
+    container.on("click", ".Ldt-EnrichedPlan-EditControl-Edit", function () {
+        _this.player.trigger("Annotation.edit", this.dataset.id);
+    });
+    container.on("click", ".Ldt-EnrichedPlan-EditControl-Delete", function () {
+        var _annotation = _this.source.getElement(this.dataset.id);
+        if (confirm(Mustache.to_html(_this.l10n.confirm_delete_message, { annotation: _annotation }))) {
+            _this.source.getAnnotations().removeElement(_annotation);
+            _this.player.trigger("Annotation.delete", this.dataset.id);
+        }
     });
 
     container.find(".Ldt-EnrichedPlan-Search-Input").on("search", function () {

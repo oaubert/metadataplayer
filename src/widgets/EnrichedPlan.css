@@ -217,3 +217,18 @@ label:hover:before {
 label:hover:before {
     background-color: #ededed;
 }
+
+.Ldt-EnrichedPlan-EditControl span {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 7px;
+}
+
+.Ldt-EnrichedPlan-EditControl-Edit {
+    background: url(img/notes_edit.svg);
+}
+
+.Ldt-EnrichedPlan-EditControl-Delete {
+    background: url(img/notes_delete.svg);
+}
