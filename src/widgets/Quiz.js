@@ -307,15 +307,6 @@ IriSP.Widgets.Quiz.prototype.draw = function () {
     _this.refresh();
 };
 
-//Generates uid
-//source : http://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
-IriSP.Widgets.Widget.prototype.generateUid = function () {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8);
-        return v.toString(16);
-    });
-}
-
 //UniqueChoice Question
 IriSP.Widgets.UniqueChoiceQuestion = function (annotation) {
     this.annotation = annotation;
@@ -323,20 +314,20 @@ IriSP.Widgets.UniqueChoiceQuestion = function (annotation) {
 
 IriSP.Widgets.UniqueChoiceQuestion.prototype = new IriSP.Widgets.Widget();
 
-IriSP.Widgets.UniqueChoiceQuestion.prototype.renderQuizTemplate = function(answer, identifier) {
-	return '<input type="radio" class="quiz-question Ldt-Quiz-Question-Check Ldt-Quiz-Question-Check-' + identifier + '" name="question" data-question="' + identifier + '" value="' + identifier + '" />';
-}
+IriSP.Widgets.UniqueChoiceQuestion.prototype.renderQuizTemplate = function (answer, identifier) {
+    return '<input type="radio" class="quiz-question Ldt-Quiz-Question-Check Ldt-Quiz-Question-Check-' + identifier + '" name="question" data-question="' + identifier + '" value="' + identifier + '" />';
+};
 
-IriSP.Widgets.UniqueChoiceQuestion.prototype.renderTemplate = function(answer, identifier) {
-	var id = this.generateUid();
-	return '<input type="radio" id="' + id + '" class="quiz-question-edition Ldt-Quiz-Question-Check Ldt-Quiz-Question-Check-'+ identifier +'" name="question" data-question="'+ identifier +'" value="' + identifier + '" /><label for="'+ id +'" title="Veuillez sélectionner la réponse correcte"></label>';
-}
+IriSP.Widgets.UniqueChoiceQuestion.prototype.renderTemplate = function (answer, identifier) {
+    var id = IriSP.generateUuid();
+    return '<input type="radio" id="' + id + '" class="quiz-question-edition Ldt-Quiz-Question-Check Ldt-Quiz-Question-Check-' + identifier + '" name="question" data-question="' + identifier + '" value="' + identifier + '" /><label for="' + id + '" title="Veuillez sélectionner la réponse correcte"></label>';
+};
 
-IriSP.Widgets.UniqueChoiceQuestion.prototype.renderFullTemplate = function(answer, identifier) {
-	var correct = (answer && answer.correct) ? "checked" : "";
-	var id = this.generateUid();
-	return '<input type="radio" id="'+ id +'" '+ correct +' class="quiz-question-edition Ldt-Quiz-Question-Check Ldt-Quiz-Question-Check-'+ identifier +'" name="question" data-question="'+ identifier +'" value="' + identifier + '" /><label for="'+ id +'"></label>';
-}
+IriSP.Widgets.UniqueChoiceQuestion.prototype.renderFullTemplate = function (answer, identifier) {
+    var correct = (answer && answer.correct) ? "checked" : "";
+    var id = IriSP.generateUuid();
+    return '<input type="radio" id="' + id + '" ' + correct + ' class="quiz-question-edition Ldt-Quiz-Question-Check Ldt-Quiz-Question-Check-' + identifier + '" name="question" data-question="' + identifier + '" value="' + identifier + '" /><label for="' + id + '"></label>';
+};
 
 
 //MultipleChoice Question
