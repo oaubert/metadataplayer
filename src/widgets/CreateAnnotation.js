@@ -512,6 +512,9 @@ IriSP.Widgets.CreateAnnotation.prototype.onSubmit = function () {
         _annotation.setBeginEnd(this.begin, this.end); /* Widget end/start timecodes */
     }
     _annotation.setAnnotationType(_annotationType.id); /* Annotation type ID */
+
+    _annotation.created = new Date(); /* Annotation creation date */
+    _annotation.description = this.$.find(".Ldt-CreateAnnotation-Description").val(); /* Description field */
     if (this.show_title_field) {
         /* Title field, only if it's visible */
         _annotation.title = this.$.find(".Ldt-CreateAnnotation-Title").val();
@@ -524,8 +527,6 @@ IriSP.Widgets.CreateAnnotation.prototype.onSubmit = function () {
         /* Project id, only if it's been specifiec in the config */
         _annotation.project_id = this.project_id;
     }
-    _annotation.created = new Date(); /* Annotation creation date */
-    _annotation.description = this.$.find(".Ldt-CreateAnnotation-Description").val(); /* Description field */
 
     var tagIds = Array.prototype.map.call(
         this.$.find(".Ldt-CreateAnnotation-TagLi.selected"),
