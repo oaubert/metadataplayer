@@ -514,7 +514,7 @@ IriSP.Widgets.CreateAnnotation.prototype.onSubmit = function () {
     _annotation.setAnnotationType(_annotationType.id); /* Annotation type ID */
 
     _annotation.created = new Date(); /* Annotation creation date */
-    _annotation.description = this.$.find(".Ldt-CreateAnnotation-Description").val(); /* Description field */
+    _annotation.description = this.$.find(".Ldt-CreateAnnotation-Description").val().trim(); /* Description field */
     if (this.show_title_field) {
         /* Title field, only if it's visible */
         _annotation.title = this.$.find(".Ldt-CreateAnnotation-Title").val();
