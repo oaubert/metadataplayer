@@ -351,14 +351,14 @@ List.prototype.removeId = function(_id, _deleteFromDirectory) {
 
 List.prototype.removeElement = function(_el, _deleteFromDirectory) {
     var _deleteFromDirectory = _deleteFromDirectory || false;
-    this.removeId(_el.id);
+    this.removeId(_el.id, _deleteFromDirectory);
 };
 
 List.prototype.removeIds = function(_list, _deleteFromDirectory) {
     var _deleteFromDirectory = _deleteFromDirectory || false,
         _this = this;
     ns._(_list).forEach(function(_id) {
-        _this.removeId(_id);
+        _this.removeId(_id, _deleteFromDirectory);
     });
 };
 
@@ -366,7 +366,7 @@ List.prototype.removeElements = function(_list, _deleteFromDirectory) {
     var _deleteFromDirectory = _deleteFromDirectory || false,
         _this = this;
     ns._(_list).forEach(function(_el) {
-        _this.removeElement(_el);
+        _this.removeElement(_el, _deleteFromDirectory);
     });
 };
 
