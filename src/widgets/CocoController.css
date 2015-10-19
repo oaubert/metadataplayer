@@ -44,25 +44,8 @@
 .Ldt-CocoCtrl-Sound {
     background: url("img/coco_video_control_sound.svg");
 }
-
-.Ldt-CocoCtrl-Volume-Control {
-    display: none;
-}
-
-.Ldt-CocoCtrl-Volume-Bar {
-    height: 5px;
-    margin: 9px 3px 0;
-    background: black;
-}
-
-.Ldt-CocoCtrl-Volume-Control .ui-slider-handle {
-    width: 6px;
-    height: 19px;
-    color: white;
-    background: black;
-    top: -8px;
-    margin-left: -4px;
-    cursor: pointer;
+.Ldt-CocoCtrl-Sound-Mute {
+    background: url("img/coco_video_control_sound_mute.svg");
 }
 
 .Ldt-CocoCtrl-Social .Ldt-CocoCtrl-button {

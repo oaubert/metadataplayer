@@ -25,10 +25,7 @@ IriSP.Widgets.CocoController.prototype.template =
     + '       <div class="Ldt-CocoCtrl-button Ldt-CocoCtrl-Facebook-Button Ldt-TraceMe" title="{{l10n.share_facebook}}"></div>'
     + '   </div>'
     + '   <div class="Ldt-CocoCtrl-button Ldt-CocoCtrl-Fullscreen-Button Ldt-TraceMe" title="{{l10n.fullscreen}}"></div>'
-    + '   <div class="Ldt-CocoCtrl-button Ldt-CocoCtrl-Sound" title="{{l10n.volume_control}}">'
-    + '      <div class="Ldt-CocoCtrl-Volume-Control" title="{{l10n.volume_control}}">'
-    + '          <div class="Ldt-CocoCtrl-Volume-Bar"></div>'
-    + '      </div>'
+    + '   <div class="Ldt-CocoCtrl-button Ldt-CocoCtrl-Sound">'
     + '   </div>'
     + '</div>'
     + '</div>';
@@ -42,8 +39,6 @@ IriSP.Widgets.CocoController.prototype.messages = {
         unmute: "Unmute",
         elapsed_time: "Elapsed time",
         total_time: "Total duration",
-        volume: "Volume",
-        volume_control: "Volume control",
         fullscreen: "Fullscreen mode"
     },
     fr: {
@@ -52,8 +47,6 @@ IriSP.Widgets.CocoController.prototype.messages = {
         pause: "Pause",
         elapsed_time: "Temps écoulé",
         total_time: "Durée totale",
-        volume: "Niveau sonore",
-        volume_control: "Réglage du niveau sonore",
         fullscreen: "Mode plein écran"
     }
 };
@@ -66,7 +59,6 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
     this.$playButton = this.$.find(".Ldt-CocoCtrl-Play");
     this.$searchBlock = this.$.find(".Ldt-CocoCtrl-Search");
     this.$searchInput = this.$.find(".Ldt-CocoCtrl-SearchInput");
-    this.$volumeBar = this.$.find(".Ldt-CocoCtrl-Volume-Bar");
     this.$timeElapsed = this.$.find(".Ldt-CocoCtrl-Time-Elapsed");
     this.$timeTotal = this.$.find(".Ldt-CocoCtrl-Time-Total");
 
@@ -96,29 +88,8 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
         });
     };
 
-    var _volctrl = this.$.find(".Ldt-CocoCtrl-Volume-Control");
     this.$.find('.Ldt-CocoCtrl-Sound')
-        .click(this.functionWrapper("muteHandler"))
-        .mouseover(function () {
-            _volctrl.show();
-        })
-        .mouseout(function () {
-            _volctrl.hide();
-        });
-    _volctrl.mouseover(function () {
-        _volctrl.show();
-    }).mouseout(function () {
-        _volctrl.hide();
-    });
-
-    // Allow Volume Cursor Dragging
-    this.$volumeBar.slider({
-        slide: function (event, ui) {
-            _this.$volumeBar.attr("title", _this.l10n.volume + ': ' + ui.value + '%');
-            _this.media.setVolume(ui.value / 100);
-        },
-        stop: this.functionWrapper("volumeUpdater")
-    });
+        .click(this.functionWrapper("muteHandler"));
 
     this.timeDisplayUpdater(new IriSP.Model.Time(0));
 };
@@ -188,5 +159,4 @@ IriSP.Widgets.CocoController.prototype.volumeUpdater = function () {
         _soundCtl.attr("title", this.l10n.mute)
             .addClass(_vol < .5 ? "Ldt-CocoCtrl-Sound-Half" : "Ldt-CocoCtrl-Sound-Full");
     }
-    this.$volumeBar.slider("value", _muted ? 0 : 100 * _vol);
 };
