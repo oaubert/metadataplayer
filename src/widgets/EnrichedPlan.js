@@ -100,10 +100,17 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
     var container = _this.$.find('.Ldt-EnrichedPlan-Container');
     var content = _this.$.find('.Ldt-EnrichedPlan-Content');
 
+    function capitalize(s) {
+        // This function is defined in recent versions of _
+        return s.replace(/^[a-z]/g, function (match) {
+            return match.toUpperCase();
+        });
+    };
+
     // Returns the note category: Own, Other, Teacher
     function note_category(a) {
         var category = a.meta["coco:category"] || 'other';
-        return IriSP._.capitalize(category);
+        return capitalize(category);
     };
 
     _slides.forEach(function (slide) {
