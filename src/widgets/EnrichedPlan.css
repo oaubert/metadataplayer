@@ -210,7 +210,7 @@
 
 /* hover style just for information */
 label:hover:before {
-  border: 1px solid #4778d9!important;
+  border: 1px solid #4778d9 !important;
 }
 
 /* hover style just for information */
@@ -223,6 +223,8 @@ label:hover:before {
     width: 24px;
     height: 24px;
     margin: 7px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .Ldt-EnrichedPlan-EditControl-Edit {
