@@ -59,7 +59,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '  </div>'
     + '</div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> <span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Delete"></span></span></div>';
+IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Delete"></span></span>{{/can_edit}}</div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
     var _this = this;
@@ -102,7 +102,8 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
 
     // Returns the note category: Own, Other, Teacher
     function note_category(a) {
-        return a.title.indexOf('Anonyme') < 0 ? "Own" : "Other";
+        var category = a.meta["coco:category"] || 'other';
+        return IriSP._.capitalize(category);
     };
 
     _slides.forEach(function (slide) {
@@ -122,6 +123,7 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
                     begin: a.begin.toString(),
                     begintc: a.begin.milliseconds,
                     atitle: a.title.slice(0, 20),
+                    can_edit: a.meta['coco:can_edit'],
                     // FIXME: Temporary hack waiting for a proper metadata definition
                     category: "Ldt-EnrichedPlan-Note-" + note_category(a),
                     filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
