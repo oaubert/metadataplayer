@@ -20,7 +20,7 @@
         "return",
         "try",
         "catch",
-        "function",
+//        "function",
         "typeof"
     ],
     "requireSpaceBeforeBlockStatements": true,
