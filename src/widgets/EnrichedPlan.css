@@ -59,19 +59,18 @@
 }
 
 .Ldt-EnrichedPlan-SlideTitle1 {
+    font-family: Roboto;
     text-transform: uppercase;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .Ldt-EnrichedPlan-SlideTitle2 {
     font-size: 14px;
-    font-weight: 600;
 }
 
 .Ldt-EnrichedPlan-SlideTitle3 {
     font-size: 14px;
-    font-weight: 200;
 }
 
 .Ldt-EnrichedPlan-Note {
