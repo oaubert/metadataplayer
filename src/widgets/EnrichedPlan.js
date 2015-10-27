@@ -59,7 +59,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '  </div>'
     + '</div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Delete"></span></span>{{/can_edit}}</div>';
+IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Delete"></span></span>{{/can_edit}}</div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
     var _this = this;
@@ -126,6 +126,7 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
                 return Mustache.to_html(_this.annotationTemplate, {
                     id: a.id,
                     text: IriSP.textFieldHtml(a.description || a.title),
+                    url: document.location.href.replace(/#.*$/, '') + '#id=' + a.id + '&t=' + (a.begin / 1000.0),
                     author: a.creator,
                     begin: a.begin.toString(),
                     begintc: a.begin.milliseconds,
