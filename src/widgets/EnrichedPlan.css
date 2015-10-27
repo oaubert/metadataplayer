@@ -82,14 +82,22 @@
     background-color: #eee;
 }
 
-.Ldt-EnrichedPlan-Note-Teacher {
+.Ldt-EnrichedPlan-Note-Link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.Ldt-EnrichedPlan-Note-Teacher,
+.Ldt-EnrichedPlan-Note-Link.Ldt-EnrichedPlan-Note-Teacher {
     color: #e5007e;
     font-style: italic;
 }
-.Ldt-EnrichedPlan-Note-Own {
+.Ldt-EnrichedPlan-Note-Own,
+.Ldt-EnrichedPlan-Note-Link.Ldt-EnrichedPlan-Note-Own {
     color: #66ccff;
 }
-.Ldt-EnrichedPlan-Note-Other {
+.Ldt-EnrichedPlan-Note-Other,
+.Ldt-EnrichedPlan-Note-Link.Ldt-EnrichedPlan-Note-Other {
     color: #996633;
 }
 
