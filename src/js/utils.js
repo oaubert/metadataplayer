@@ -1,7 +1,7 @@
 /* utils.js - various utils that don't belong anywhere else */
 
 IriSP.jqEscape = function(_text) {
-    return _text.replace(/(:|\.)/g,'\\$1');
+    return _text.replace(/(:|\.)/g, '\\$1');
 };
 
 IriSP.getLib = function(lib) {
@@ -35,7 +35,7 @@ IriSP.textFieldHtml = function(_text, _regexp, _extend) {
         text = _text.trim();
 
     function addToList(_rx, _startHtml, _endHtml) {
-        while(true) {
+        while (true) {
             var result = _rx.exec(text);
             if (!result) {
                 break;
@@ -109,17 +109,17 @@ IriSP.log = function() {
 };
 
 IriSP.attachDndData = function(jqSel, data) {
-	jqSel.attr("draggable", "true").on("dragstart", function(_event) {
-		var d = (typeof data === "function" ? data.call(this) : data);
-		try {
+    jqSel.attr("draggable", "true").on("dragstart", function(_event) {
+        var d = (typeof data === "function" ? data.call(this) : data);
+        try {
             if (d.html === undefined && d.uri && d.text) {
                 d.html = '<a href="' + d.uri + '">' + d.text + '</a>';
             }
-			IriSP._(d).each(function(v, k) {
+            IriSP._(d).each(function(v, k) {
                 if (v && k != 'text' && k != 'html') {
-					_event.originalEvent.dataTransfer.setData("text/x-iri-" + k, v);
-				}
-			});
+                    _event.originalEvent.dataTransfer.setData("text/x-iri-" + k, v);
+                }
+            });
             if (d.uri && d.text) {
                 _event.originalEvent.dataTransfer.setData("text/x-moz-url", d.uri + "\n" + d.text.replace("\n", " "));
                 _event.originalEvent.dataTransfer.setData("text/plain", d.text + " " + d.uri);
@@ -130,13 +130,13 @@ IriSP.attachDndData = function(jqSel, data) {
             if (d.html !== undefined) {
                 _event.originalEvent.dataTransfer.setData("text/html", d.html);
             }
-            if (d.text !== undefined && ! d.uri) {
+            if (d.text !== undefined && !d.uri) {
                 _event.originalEvent.dataTransfer.setData("text/plain", d.text);
             }
-		} catch(err) {
-			_event.originalEvent.dataTransfer.setData("Text", JSON.stringify(d));
-		}
-	});
+        } catch (err) {
+            _event.originalEvent.dataTransfer.setData("Text", JSON.stringify(d));
+        }
+    });
 };
 
 IriSP.FakeClass = function(properties) {
@@ -158,19 +158,19 @@ IriSP.timestamp2ms = function(t) {
     return 1000 * (3600 * parseInt(s[2], 10) + 60 * parseInt(s[1], 10) + parseInt(s[0], 10));
 };
 
-IriSP.setFullScreen= function(elem, value) {
+IriSP.setFullScreen = function(elem, value) {
     // Set fullscreen on or off
     if (value) {
-		if (elem.requestFullscreen) {
-			elem.requestFullscreen();
-		} else if (elem.mozRequestFullScreen) {
-			elem.mozRequestFullScreen();
-		} else if (elem.webkitRequestFullscreen) {
-			elem.webkitRequestFullscreen();
-		} else if (elem.msRequestFullscreen) {
-			elem.msRequestFullscreen();
-		}
-	} else {
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+            elem.msRequestFullscreen();
+        }
+    } else {
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.msExitFullscreen) {
@@ -184,7 +184,7 @@ IriSP.setFullScreen= function(elem, value) {
 };
 
 IriSP.isFullscreen = function() {
-	return (document.fullscreenElement ||  document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+    return (document.fullscreenElement ||  document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
 };
 
 IriSP.getFullscreenElement = function () {
