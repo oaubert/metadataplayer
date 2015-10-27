@@ -91,8 +91,7 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
         fullscreenButton.addClass("Ldt-CocoCtrl-Disabled");
     }
 
-    this.$.find('.Ldt-CocoCtrl-Sound')
-        .click(this.functionWrapper("muteHandler"));
+    this.$.find('.Ldt-CocoCtrl-Sound').on("click touchstart", this.functionWrapper("muteHandler"));
 
     this.timeDisplayUpdater(new IriSP.Model.Time(0));
 };
