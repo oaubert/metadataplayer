@@ -53,6 +53,7 @@ IriSP.Widgets.CocoController.prototype.messages = {
 
 IriSP.Widgets.CocoController.prototype.draw = function () {
     var _this = this;
+    var fullscreenButton = this.$.find(".Ldt-CocoCtrl-Fullscreen-Button");
     this.renderTemplate();
 
     // Define blocks
@@ -73,9 +74,9 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
     this.$playButton.click(this.functionWrapper("playHandler"));
 
     // Fullscreen handling
-    this.$.find(".Ldt-CocoCtrl-Fullscreen-Button").click(this.functionWrapper("toggleFullscreen"));
     var fullscreen_event_name = IriSP.getFullscreenEventname();
     if (fullscreen_event_name) {
+        fullscreenButton.click(this.functionWrapper("toggleFullscreen"));
         document.addEventListener(fullscreen_event_name, function () {
             var widget = IriSP.jQuery(_this.fullscreen_widget);
             if (widget.length) {
@@ -86,7 +87,9 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
                 }
             };
         });
-    };
+    } else {
+        fullscreenButton.addClass("Ldt-CocoCtrl-Disabled");
+    }
 
     this.$.find('.Ldt-CocoCtrl-Sound')
         .click(this.functionWrapper("muteHandler"));
