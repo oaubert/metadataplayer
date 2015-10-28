@@ -53,8 +53,8 @@ IriSP.Widgets.CocoController.prototype.messages = {
 
 IriSP.Widgets.CocoController.prototype.draw = function () {
     var _this = this;
-    var fullscreenButton = this.$.find(".Ldt-CocoCtrl-Fullscreen-Button");
     this.renderTemplate();
+    var fullscreenButton = this.$.find(".Ldt-CocoCtrl-Fullscreen-Button");
 
     // Define blocks
     this.$playButton = this.$.find(".Ldt-CocoCtrl-Play");
@@ -76,7 +76,11 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
     // Fullscreen handling
     var fullscreen_event_name = IriSP.getFullscreenEventname();
     if (fullscreen_event_name) {
-        fullscreenButton.click(this.functionWrapper("toggleFullscreen"));
+        fullscreenButton.on("click touchstart", function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            _this.toggleFullscreen();
+        });
         document.addEventListener(fullscreen_event_name, function () {
             var widget = IriSP.jQuery(_this.fullscreen_widget);
             if (widget.length) {
@@ -91,7 +95,11 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
         fullscreenButton.addClass("Ldt-CocoCtrl-Disabled");
     }
 
-    this.$.find('.Ldt-CocoCtrl-Sound').on("click touchstart", this.functionWrapper("muteHandler"));
+    this.$.on("click touchstart", ".Ldt-CocoCtrl-Sound", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        _this.media.setMuted(!_this.media.getMuted());
+    });
 
     this.timeDisplayUpdater(new IriSP.Model.Time(0));
 };
@@ -140,10 +148,6 @@ IriSP.Widgets.CocoController.prototype.playHandler = function () {
     } else {
         this.media.pause();
     }
-};
-
-IriSP.Widgets.CocoController.prototype.muteHandler = function () {
-    this.media.setMuted(!this.media.getMuted());
 };
 
 IriSP.Widgets.CocoController.prototype.volumeUpdater = function () {
