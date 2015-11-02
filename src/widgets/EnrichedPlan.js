@@ -1,7 +1,3 @@
-/* TODO
-- add callbacks
- */
-
 IriSP.Widgets.EnrichedPlan = function (player, config) {
     IriSP.Widgets.Widget.call(this, player, config);
 };
@@ -132,7 +128,6 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
                     begintc: a.begin.milliseconds,
                     atitle: a.title.slice(0, 20),
                     can_edit: a.meta['coco:can_edit'],
-                    // FIXME: Temporary hack waiting for a proper metadata definition
                     category: "Ldt-EnrichedPlan-Note-" + note_category(a),
                     filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
                                 || (note_category(a) == 'Other' && !_this.show_other_notes)
