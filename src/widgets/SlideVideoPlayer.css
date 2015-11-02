@@ -53,8 +53,8 @@
 }
 .Ldt-SlideVideoPlayer-pip-menu-toggle {
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 32px;
+    height: 32px;
     cursor: pointer;
     z-index: 10;
     background-image: url(img/pip_toggle.svg);
