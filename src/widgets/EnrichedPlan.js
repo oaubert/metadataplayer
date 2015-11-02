@@ -7,11 +7,21 @@ IriSP.Widgets.EnrichedPlan.prototype = new IriSP.Widgets.Widget();
 IriSP.Widgets.EnrichedPlan.prototype.messages = {
     en: {
         delete_annotation: "Delete note",
-        confirm_delete_message: "You are about to delete {{ annotation.title }}. Are you sure you want to delete it?"
+        confirm_delete_message: "You are about to delete {{ annotation.title }}. Are you sure you want to delete it?",
+        teacher_notes: "Teacher notes",
+        other_notes: "Other Notes",
+        own_notes: "Pers. notes",
+        slides: "Slides",
+        search: "Search..."
     },
     fr: {
         delete_annotation: "Supprimer la note",
-        confirm_delete_message: "Vous allez supprimer {{ annotation.title }}. Êtes-vous certain(e) ?"
+        confirm_delete_message: "Vous allez supprimer {{ annotation.title }}. Êtes-vous certain(e) ?",
+        teacher_notes: "Notes Enseignant",
+        other_notes: "Notes Autres",
+        own_notes: "Notes perso.",
+        slides: "Diapo",
+        search: "Recherchez..."
     }
 };
 
@@ -32,15 +42,15 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + '<form class="Ldt-EnrichedPlan-Controls">'
     + '{{#show_controls}}'
     + ' <input id="{{prefix}}teacher_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Teacher" {{#show_teacher_notes}}checked{{/show_teacher_notes}} type="checkbox">'
-    + ' <label for="{{prefix}}teacher_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Teacher">Notes Enseignant</label>'
+    + ' <label for="{{prefix}}teacher_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Teacher">{{ l10n.teacher_notes }}</label>'
     + ' <input id="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Other" {{#show_other_notes}}checked{{/show_other_notes}} type="checkbox">'
-    + ' <label for="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Other">Notes Autres</label>'
-    + ' <input id="{{prefix}}simplified_plan_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Own" {{#show_own_notes}}checked{{/show_own_notes}} type="checkbox">'
-    + ' <label for="{{prefix}}simplified_plan_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Own">Notes perso.</label>'
+    + ' <label for="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Other">{{ l10n.other_notes }}</label>'
+    + ' <input id="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Own" {{#show_own_notes}}checked{{/show_own_notes}} type="checkbox">'
+    + ' <label for="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Own">{{ l10n.own_notes }}</label>'
     + ' <input id="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Slide-Display" {{#show_slides}}checked{{/show_slides}} type="checkbox">'
-    + ' <label for="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Slide-Display">Diapo<br/>&nbsp;</label>'
+    + ' <label for="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Slide-Display">{{ l10n.slides }}<br/>&nbsp;</label>'
     + '{{/show_controls}}'
-    + ' <input class="Ldt-EnrichedPlan-Search-Input {{^show_controls}}Ldt-EnrichedPlan-Search-Input-Full{{/show_controls}}" type="search" incremental placeholder="Recherchez"/>'
+    + ' <input class="Ldt-EnrichedPlan-Search-Input {{^show_controls}}Ldt-EnrichedPlan-Search-Input-Full{{/show_controls}}" type="search" incremental placeholder="{{ l10n.search }}"/>'
     + ' </form>'
     + '<div class="Ldt-EnrichedPlan-Content"></div>'
     + '</div>';
