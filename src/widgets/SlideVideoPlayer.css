@@ -51,15 +51,6 @@
 .Ldt-SlideVideoPlayer h2 {
     display: none;
 }
-.Ldt-SlideVideoPlayer-pip-menu {
-    position: absolute;
-    bottom: 0;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 10;
-    display: none;
-}
 .Ldt-SlideVideoPlayer-pip-menu-toggle {
     position: absolute;
     width: 18px;

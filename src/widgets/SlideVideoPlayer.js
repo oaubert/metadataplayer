@@ -44,7 +44,7 @@ IriSP.Widgets.SlideVideoPlayer.prototype.draw = function() {
 
     if (_this.mode == 'pip') {
         _this.$.find(".Ldt-SlideVideoPlayer-panel").each(function () {
-            IriSP.jQuery(this).append('<div class="Ldt-SlideVideoPlayer-pip-menu"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="br"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="tr"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="tl"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="bl"></div>');
+            IriSP.jQuery(this).append('<div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="br"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="tr"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="tl"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="bl"></div>');
         });
         _this.$.find(".Ldt-SlideVideoPlayer-pip-menu-toggle").each(function() {
             IriSP.jQuery(this).addClass("Ldt-SlideVideoPlayer-pip-menu-toggle-" + this.dataset.position);
