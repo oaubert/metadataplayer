@@ -43,9 +43,14 @@ IriSP.Widgets.SlideVideoPlayer.prototype.draw = function() {
     );
 
     if (_this.mode == 'pip') {
-        _this.$.find(".Ldt-SlideVideoPlayer").append('<div class="Ldt-SlideVideoPlayer-pip-menu"><div class="Ldt-SlideVideoPlayer-pip-menu-toggle"></div></div>');
+        _this.$.find(".Ldt-SlideVideoPlayer-panel").each(function () {
+            IriSP.jQuery(this).append('<div class="Ldt-SlideVideoPlayer-pip-menu"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="br"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="tr"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="tl"></div><div class="Ldt-SlideVideoPlayer-pip-menu-toggle" data-position="bl"></div>');
+        });
+        _this.$.find(".Ldt-SlideVideoPlayer-pip-menu-toggle").each(function() {
+            IriSP.jQuery(this).addClass("Ldt-SlideVideoPlayer-pip-menu-toggle-" + this.dataset.position);
+        });
         _this.$.on("click", ".Ldt-SlideVideoPlayer-pip-menu-toggle", function () {
-            _this.toggleMainDisplay();
+            _this.setPipPosition(this.dataset.position);
         });
         window.setTimeout(function () {
             _this.setMainDisplay('video');
@@ -83,4 +88,10 @@ IriSP.Widgets.SlideVideoPlayer.prototype.setMainDisplay = function(video_or_slid
     };
     main.removeClass('Ldt-SlideVideoPlayer-pip-pip').addClass('Ldt-SlideVideoPlayer-pip-main');
     pip.removeClass('Ldt-SlideVideoPlayer-pip-main').addClass('Ldt-SlideVideoPlayer-pip-pip');
-}
+};
+
+IriSP.Widgets.SlideVideoPlayer.prototype.setPipPosition = function(position) {
+    var pip = this.$.find(".Ldt-SlideVideoPlayer-pip-pip");
+    pip.removeClass('Ldt-SlideVideoPlayer-pip-tl Ldt-SlideVideoPlayer-pip-tr Ldt-SlideVideoPlayer-pip-bl Ldt-SlideVideoPlayer-pip-br')
+        .addClass('Ldt-SlideVideoPlayer-pip-' + position);
+};

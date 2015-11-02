@@ -26,13 +26,26 @@
 .Ldt-SlideVideoPlayer-pip-main .Ldt-ImageDisplay-Container {
     min-height: 30vw;
 }
+/* pip-pip is -br (bottom right) by default */
 .Ldt-SlideVideoPlayer-pip-pip {
     position: absolute;
     width: 30% !important;
     height: 30%;
-    right: 2px;
-    bottom: 2px;
     z-index: 3;
+    bottom: 2px;
+    right: 2px;
+}
+.Ldt-SlideVideoPlayer-pip-bl {
+    left: 2px;
+    bottom: 2px;
+}
+.Ldt-SlideVideoPlayer-pip-tr {
+    top: 2px;
+    right: 2px;
+}
+.Ldt-SlideVideoPlayer-pip-tl {
+    top: 2px;
+    left: 2px;
 }
 
 .Ldt-SlideVideoPlayer h2 {
@@ -40,20 +53,41 @@
 }
 .Ldt-SlideVideoPlayer-pip-menu {
     position: absolute;
-    bottom: 2px;
-    right: 2px;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0;
     z-index: 10;
     display: none;
 }
-.Ldt-SlideVideoPlayer:hover .Ldt-SlideVideoPlayer-pip-menu {
+.Ldt-SlideVideoPlayer-pip-menu-toggle {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    z-index: 10;
+    background-image: url(img/pip_toggle.svg);
+    display: none;
+}
+.Ldt-SlideVideoPlayer-pip-pip:hover .Ldt-SlideVideoPlayer-pip-menu-toggle {
     background-color: #000;
     opacity: .5;
     display: inline-block;
 }
 
-.Ldt-SlideVideoPlayer-pip-menu-toggle {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    background-image: url(img/pip_toggle.svg);
+.Ldt-SlideVideoPlayer-pip-menu-toggle-br {
+    bottom: 2px;
+    right: 2px;
+}
+.Ldt-SlideVideoPlayer-pip-menu-toggle-tr {
+    top: 2px;
+    right: 2px;
+}
+.Ldt-SlideVideoPlayer-pip-menu-toggle-tl {
+    top: 2px;
+    left: 2px;
+}
+.Ldt-SlideVideoPlayer-pip-menu-toggle-bl {
+    bottom: 2px;
+    left: 2px;
 }
