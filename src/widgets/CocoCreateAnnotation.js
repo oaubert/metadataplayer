@@ -20,7 +20,7 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.messages = {
 IriSP.Widgets.CocoCreateAnnotation.prototype.template =
     '<form class="Ldt-CocoCreateAnnotation-Form">' +
     '  <input class="Ldt-CocoCreateAnnotation-Timecode" type="text" value="??:??">' +
-    '  <textarea class="Ldt-CocoCreateAnnotation-Text" autofocus placeholder="??:?? Notez ici"></textarea>' +
+    '  <textarea class="Ldt-CocoCreateAnnotation-Text" autofocus placeholder="??:?? {{ l10n.type_description }}"></textarea>' +
     '</form>';
 
 IriSP.Widgets.CocoCreateAnnotation.prototype.draw = function () {
