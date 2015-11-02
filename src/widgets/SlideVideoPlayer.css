@@ -82,3 +82,9 @@
     bottom: 2px;
     left: 2px;
 }
+.Ldt-SlideVideoPlayer-pip-menu-toggle-main {
+    top: 50%;
+    top: calc(50% - 9px);
+    left: 50%;
+    left: calc(50% - 9px);
+}
