@@ -11,6 +11,7 @@
 
 .Ldt-EnrichedPlan-SlideItem.filtered_out {
     max-height: 0;
+    position: absolute;
     overflow: hidden;
 }
 
