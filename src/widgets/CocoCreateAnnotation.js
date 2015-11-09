@@ -37,6 +37,13 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.draw = function () {
     this.begin = new IriSP.Model.Time();
     textField.on("change keyup input paste", this.functionWrapper("onTextChange"));
     this.$.find("form").submit(this.functionWrapper("onSubmit"));
+
+    this.onMediaEvent("timeupdate", function (_time) {
+        // Update timecode if description is empty
+        if (textField.val().trim() == "") {
+            _this.setBegin(_time);
+        };
+    });
 };
 
 IriSP.Widgets.CocoCreateAnnotation.prototype.setBegin = function (t) {
