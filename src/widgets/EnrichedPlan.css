@@ -15,12 +15,25 @@
     overflow: hidden;
 }
 
-.Ldt-EnrichedPlan-SlideTimecode {
+.Ldt-EnrichedPlan-SlideTimecode,
+.Ldt-EnrichedPlan-NoteTimecode {
     display: inline-block;
     width: 24px;
     color: #999 !important;
     font-size: 9px !important;
     vertical-align: top;
+}
+
+.Ldt-EnrichedPlan-SlideNotes {
+    position: relative;
+}
+
+.Ldt-EnrichedPlan-NoteTimecode {
+    left: -35px;
+    position: absolute;
+    font-family: Roboto !important;
+    padding-top: 8px;
+    display: none;
 }
 
 .Ldt-EnrichedPlan-SlideThumbnail {
@@ -47,6 +60,11 @@
 
 .Ldt-EnrichedPlan-SlideThumbnail.filtered_out + .Ldt-EnrichedPlan-SlideContent {
     width: calc(100% - 40px);
+    margin-left: 8px;
+}
+
+.Ldt-EnrichedPlan-SlideThumbnail.filtered_out + .Ldt-EnrichedPlan-SlideContent .Ldt-EnrichedPlan-NoteTimecode {
+    display: inline-block;
 }
 
 .Ldt-EnrichedPlan-SlideTitle {
