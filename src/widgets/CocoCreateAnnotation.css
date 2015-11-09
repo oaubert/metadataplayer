@@ -11,7 +11,7 @@
 }
 .Ldt-CocoCreateAnnotation-Timecode {
     position: absolute;
-    font-size: 12px;
+    font-size: 9px;
     color: #999;
     width: 4em;
     border: none;
@@ -20,4 +20,6 @@
 }
 .Ldt-CocoCreateAnnotation-Timecode-Active {
     display: inline-block;
+    font-weight: bold;
+    font-size: 12px;
 }
