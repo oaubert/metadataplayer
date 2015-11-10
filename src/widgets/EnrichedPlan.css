@@ -236,7 +236,7 @@
 .Ldt-EnrichedPlan-Control-Checkbox:checked + label:before {
   content: '';
   position: absolute;
-  left:0;
+  left: 0;
   top: 2px;
   width: 13px;
   height: 13px;
@@ -293,8 +293,9 @@ label:hover:before {
     display: inline-block;
     width: 24px;
     height: 24px;
-    margin: 7px;
+    margin: 3px;
     background-position: center;
+    background-size: cover;
     background-repeat: no-repeat;
 }
 
