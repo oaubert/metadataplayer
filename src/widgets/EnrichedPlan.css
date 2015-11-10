@@ -183,6 +183,11 @@
     height: 24px;
 }
 
+.Ldt-EnrichedPlan-ControlMenuHome {
+    position: absolute;
+    left: -9999px;
+}
+
 .Ldt-EnrichedPlan-ControlMenuHome + ul {
     position: absolute;
     display: none;
@@ -190,7 +195,6 @@
 .Ldt-EnrichedPlan-ControlMenuHome:checked + ul {
     display: flex;
     flex-direction: column;
-    margin-top: -13px;
 }
 .Ldt-EnrichedPlan-ControlMenu ul {
   float: right;
