@@ -138,8 +138,6 @@
     height: 36px;
     padding: 9px 0 6px 0;
     border-bottom: 1px solid #000;
-    overflow-y: hidden;
-    overflow-x: hidden;
     position: absolute;
     top: 0;
     left: 0;
@@ -159,14 +157,53 @@
     position: relative;
 }
 .Ldt-EnrichedPlan-Controls .Ldt-EnrichedPlan-Search-Input {
-    float: right;
     font-family: Roboto;
     font-size: 16px;
-    width: calc(100% - 340px);
+    width: 95%;
+    width: calc(100% - 32px);
     outline: none;
 }
-.Ldt-EnrichedPlan-Controls .Ldt-EnrichedPlan-Search-Input-Full {
-    width: 95%;
+
+.Ldt-EnrichedPlan-ControlMenu {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    right: 4px;
+    background-color: #fff;
+}
+
+.Ldt-EnrichedPlan-Toggle {
+    display: flex;
+    background-image: url(img/hamburger.svg);
+    background-size: cover;
+    width: 24px;
+    height: 24px;
+}
+
+.Ldt-EnrichedPlan-ControlMenuHome + ul {
+    position: absolute;
+    display: none;
+}
+.Ldt-EnrichedPlan-ControlMenuHome:checked + ul {
+    display: flex;
+    flex-direction: column;
+    margin-top: -13px;
+}
+.Ldt-EnrichedPlan-ControlMenu ul {
+  float: right;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  position: relative;
+  background-color: #fff;
+}
+
+.Ldt-EnrichedPlan-ControlMenu ul li {
+  margin: 4px 10px;
+  display: inline-block;
 }
 
 .Ldt-EnrichedPlan-Note.non_matching {
