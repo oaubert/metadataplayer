@@ -70,6 +70,7 @@ IriSP.Widgets.AnnotationsList.prototype.defaults = {
     show_header : false,
     custom_header : false,
     annotations_count_header : true,
+    annotations_count_header_string: "annotations",
     show_creation_date : false,
     show_timecode : true,
     show_end_time : true,
@@ -167,7 +168,7 @@ IriSP.Widgets.AnnotationsList.prototype.messages = {
         close_widget: "Close",
         confirm: "Confirm",
         cancel: "Cancel",
-        annotation_deletion_delete: "You will delete this annotation : ",
+        annotation_deletion_delete: "You will delete this annotation",
         annotation_deletion_sending: "Your deletion request is being sent ... ",
         annotation_deletion_success: "The annotation has been deleted.",
         annotation_deletion_error: "There was an error contacting the server. The annotation has not been deleted."
@@ -193,7 +194,7 @@ IriSP.Widgets.AnnotationsList.prototype.messages = {
         close_widget: "Fermer",
         confirm: "Confirmer",
         cancel: "Annuler",
-        annotation_deletion_delete: "Vous allez supprimer cette annotation: ",
+        annotation_deletion_delete: "Vous allez supprimer cette annotation",
         annotation_deletion_sending: "Votre demande de suppression est en cours d'envoi ... ",
         annotation_deletion_success: "L'annotation a été supprimée.",
         annotation_deletion_error: "Une erreur s'est produite en contactant le serveur. L'annotation n'a pas été supprimée."
@@ -224,8 +225,9 @@ IriSP.Widgets.AnnotationsList.prototype.template =
     +     '{{#allow_annotations_deletion}}'
     +     '<div data-annotation="{{id}}" class="Ldt-AnnotationsList-Screen Ldt-AnnotationsList-ScreenDelete">'
     +         '<a title="{{l10n.close_widget}}" class="Ldt-AnnotationsList-Close" href="#"></a>'
+    +         '{{l10n.annotation_deletion_delete}}'
     +         '<ul class="Ldt-AnnotationsList-ul-ToDelete"></ul>'
-    +         '{{l10n.annotation_deletion_delete}} <a class="Ldt-AnnotationsList-ConfirmDelete">{{l10n.confirm}}</a> <a class="Ldt-AnnotationsList-CancelDelete">{{l10n.cancel}}</a>'
+    +         '<a class="Ldt-AnnotationsList-ConfirmDelete">{{l10n.confirm}}</a> <a class="Ldt-AnnotationsList-CancelDelete">{{l10n.cancel}}</a>'
     +     '</div>'
     +     '<div data-annotation="{{id}}" class="Ldt-AnnotationsList-Screen Ldt-AnnotationsList-ScreenSending">'
     +         '<a title="{{l10n.close_widget}}" class="Ldt-AnnotationsList-Close" href="#"></a>'
@@ -649,7 +651,13 @@ IriSP.Widgets.AnnotationsList.prototype.refresh = function (_forceRedraw) {
                 .mouseout(function () {
                     _annotation.trigger("unselect");
                 })
-                .click(function () {
+                .click(function() {
+                    if (_this.filter_by_segments && _this.media.getTimeRange()) {
+                        _ann_time = (_annotation.begin + _annotation.end) / 2;
+                        if ((_ann_time <= _this.media.getTimeRange()[0]) || (_ann_time >= _this.media.getTimeRange()[1])) {
+                            _this.media.resetTimeRange();
+                        }
+                    }
                     _annotation.trigger("click");
                 })
                 .appendTo(_this.list_$);
@@ -906,14 +914,17 @@ IriSP.Widgets.AnnotationsList.prototype.refresh = function (_forceRedraw) {
     return _list.length;
 };
 
-IriSP.Widgets.AnnotationsList.prototype.onDeleteClick = function (event) {
-    var ann_id = event.target.dataset.annotation,
-        delete_preview_$ = this.$.find(".Ldt-AnnotationsList-ul-ToDelete"),
-        _list = this.getWidgetAnnotations().filter(function (_annotation) {
-            return _annotation.id == ann_id;
-        }),
-        _annotation = _list[0],
+IriSP.Widgets.AnnotationsList.prototype.onDeleteClick = function(event) {
+    var _list = this.getWidgetAnnotations();
+    var ann_id = event.target.dataset.annotation;
+    delete_preview_$ = this.$.find(".Ldt-AnnotationsList-ul-ToDelete");
+    delete_preview_$.html("");
+    _list = _list.filter(function(_annotation) {
+        return _annotation.id == ann_id;
+    });
+    var _annotation = _list[0],
         _title = "",
+        _creator = "",
         _this = this;
     delete_preview_$.html("");
     if (_annotation.creator) {
@@ -929,7 +940,7 @@ IriSP.Widgets.AnnotationsList.prototype.onDeleteClick = function (event) {
         } else {
             _user = _users[0];
         }
-        _title = _this.make_name_string_function (_user);
+        _creator = _this.make_name_string_function(_user);
     }
     if (_annotation.title) {
         var tempTitle = _annotation.title;
@@ -951,21 +962,24 @@ IriSP.Widgets.AnnotationsList.prototype.onDeleteClick = function (event) {
         end : _annotation.end.toString(),
         created : _created,
         show_timecode : this.show_timecode,
+        show_creator : this.show_creator,
+        creator : _creator,
         tags : false,
         l10n: this.l10n,
         allow_annotations_deletion: false
     };
-    delete_preview_$.html(Mustache.to_html(this.annotationTemplate, _data));
+    _html = Mustache.to_html(this.annotationTemplate, _data);
+    delete_preview_$.html(_html);
 
-    this.$.find(".Ldt-AnnotationsList-ConfirmDelete").click(function () {
+    this.$.find(".Ldt-AnnotationsList-ConfirmDelete").click(function() {
         _this.sendDelete(ann_id);
     });
 
     this.showScreen("Delete");
 };
 
-IriSP.Widgets.AnnotationsList.prototype.refreshHeader = function () {
-    var annotation_count_string = " (" + this.annotations_count + " annotations)";
+IriSP.Widgets.AnnotationsList.prototype.refreshHeader = function() {
+    var annotation_count_string = " (" + this.annotations_count + " " + this.annotations_count_header_string + ")";
     this.$.find('.Ldt-AnnotationsList-header').html("");
     this.$.find('.Ldt-AnnotationsList-header').html(
         this.custom_header && typeof this.custom_header == "string" ? this.custom_header + annotation_count_string : this.l10n.header + annotation_count_string
