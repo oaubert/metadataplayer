@@ -822,6 +822,10 @@ IriSP.Widgets.AnnotationsList.prototype.refresh = function (_forceRedraw) {
             });
             this.$.find('.Ldt-AnnotationsList-PublishAnnotation').click(function (e) {
                 var _annotation = get_local_annotation(this.dataset.editable_id);
+                if (_annotation === undefined) {
+                    // It may be a remote annotation
+                    _annotation = widget.source.getElement(this.dataset.editable_id);
+                }
                 // Publish annotation to the server
                 if (!confirm(Mustache.to_html(widget.l10n.confirm_publish_message, { annotation: _annotation }))) {
                     return;
