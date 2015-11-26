@@ -296,7 +296,7 @@ label:hover:before {
     display: inline-block;
     width: 24px;
     height: 24px;
-    margin: 3px;
+    margin: 5px;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
