@@ -41,7 +41,6 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
       '<div class="Ldt-EnrichedPlan-Container">'
     + '<div class="Ldt-EnrichedPlan-Content"></div>'
     + '<form class="Ldt-EnrichedPlan-Controls">'
-    + '<input class="Ldt-EnrichedPlan-Search-Input {{^show_controls}}Ldt-EnrichedPlan-Search-Input-Full{{/show_controls}}" type="search" incremental placeholder="{{ l10n.search }}"/>'
     + '{{#show_controls}}'
     + '<div class="Ldt-EnrichedPlan-ControlMenu">'
     + ' <label for="{{ prefix }}control_menu" class="Ldt-EnrichedPlan-Toggle"></label>'
@@ -68,6 +67,7 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + '</ul>'
     + '</div>'
     + '{{/show_controls}}'
+    + '<input class="Ldt-EnrichedPlan-Search-Input {{^show_controls}}Ldt-EnrichedPlan-Search-Input-Full{{/show_controls}}" type="search" incremental placeholder="{{ l10n.search }}"/>'
     + '</form>'
     + '</div>';
 

@@ -144,6 +144,7 @@
     right: 0;
     z-index: 1;
     background-color: #fff;
+    display: flex;
 }
 
 .Ldt-EnrichedPlan-Control-Label {
@@ -159,16 +160,13 @@
 .Ldt-EnrichedPlan-Controls .Ldt-EnrichedPlan-Search-Input {
     font-family: Roboto;
     font-size: 16px;
-    width: 95%;
-    width: calc(100% - 32px);
+    flex: 1;
     outline: none;
 }
 
 .Ldt-EnrichedPlan-ControlMenu {
     margin: 0;
     padding: 0;
-    display: inline-block;
-    position: absolute;
     width: 24px;
     height: 24px;
     right: 4px;
@@ -195,9 +193,9 @@
 .Ldt-EnrichedPlan-ControlMenuHome:checked + ul {
     display: flex;
     flex-direction: column;
+    width: 100px;
 }
 .Ldt-EnrichedPlan-ControlMenu ul {
-  float: right;
   padding: 0;
   margin: 0;
   list-style: none;
