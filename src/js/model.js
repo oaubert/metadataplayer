@@ -542,6 +542,16 @@ IriSP.Model = (function (ns) {
         });
     };
 
+    /**
+     * Return a short surrogate for the element:
+     * either its title or the first line of its description
+     */
+    BaseElement.prototype.getTitleOrDescription = function () {
+        var t = this.title || this.description || "";
+        t = t.split(/\n/)[0];
+        return t;
+    };
+
     BaseElement.prototype.on = function(_event, _callback) {
         if (typeof this.__events[_event] === "undefined") {
             this.__events[_event] = [];
