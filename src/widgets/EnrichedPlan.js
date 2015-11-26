@@ -138,7 +138,7 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
     _slides.forEach(function (slide) {
         var _html = Mustache.to_html(_this.slideTemplate, {
             id : slide.id,
-            atitle : IriSP.textFieldHtml(slide.title),
+            atitle : IriSP.textFieldHtml(slide.getTitleOrDescription()),
             level: (slide.content !== undefined && slide.content.data !== undefined) ? (slide.content.data.level || 1) : 1,
             begin : slide.begin.toString(),
             begintc: slide.begin.milliseconds,
@@ -147,12 +147,12 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
             notes: slide.annotations.map(function (a) {
                 return Mustache.to_html(_this.annotationTemplate, {
                     id: a.id,
-                    text: IriSP.textFieldHtml(a.description || a.title),
+                    text: IriSP.textFieldHtml(a.getTitleOrDescription()),
                     url: document.location.href.replace(/#.*$/, '') + '#id=' + a.id + '&t=' + (a.begin / 1000.0),
                     author: a.creator,
                     begin: a.begin.toString(),
                     begintc: a.begin.milliseconds,
-                    atitle: a.title.slice(0, 20),
+                    atitle: a.getTitleOrDescription().slice(0, 20),
                     can_edit: a.meta['coco:can_edit'],
                     category: "Ldt-EnrichedPlan-Note-" + note_category(a),
                     filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
