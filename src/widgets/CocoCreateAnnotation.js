@@ -18,7 +18,7 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.messages = {
 };
 
 IriSP.Widgets.CocoCreateAnnotation.prototype.template =
-    '<form class="Ldt-CocoCreateAnnotation-Form">' +
+    '<form method="post" class="Ldt-CocoCreateAnnotation-Form">' +
     '  <input class="Ldt-CocoCreateAnnotation-Timecode" type="text" value="??:??">' +
     '  <textarea class="Ldt-CocoCreateAnnotation-Text" autofocus placeholder="??:?? {{ l10n.type_description }}"></textarea>' +
     '</form>';
@@ -81,6 +81,13 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.onTextChange = function (e) {
     this.pauseOnWrite();
     this.previousInput = _contents;
     return !!_contents;
+};
+
+/**
+ * Display a feedback
+ */
+IriSP.Widgets.CocoCreateAnnotation.prototype.showScreen = function (screen) {
+    // FIXME: use notify?
 };
 
 IriSP.Widgets.CocoCreateAnnotation.prototype.onSubmit = function () {
@@ -160,7 +167,7 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.onSubmit = function () {
                                   (_this.after_send_timeout || 5000));
             }
         });
-        this.showScreen('Wait');
+        _this.showScreen('Wait');
     };
     return false;
 };
