@@ -42,7 +42,7 @@ IriSP.htmlPlayer = function (media, jqselector, options) {
         });
         videoEl.append(_trackNode);
     }
-    jqselector.append(videoEl);
+    jqselector.prepend(videoEl);
 
     var mediaEl = videoEl[0];
 
