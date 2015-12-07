@@ -177,7 +177,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
     // correctly set.
     _slides.forEach(function (slide) {
         slide.annotations = _annotations.filter(function (a) {
-            return a.begin >= slide.begin && a.begin <= slide.end;
+            return a.begin >= slide.begin && a.begin < slide.end;
         });
     });
 
