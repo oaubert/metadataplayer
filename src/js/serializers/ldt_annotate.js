@@ -44,6 +44,7 @@ IriSP.serializers.ldt_annotate = {
             _anntype.title = _anndata.type_title;
             _source.getAnnotationTypes().push(_anntype);
         }
+        _ann.meta = _anndata.meta;
         _ann.setAnnotationType(_anntype.id);
         var _tagIds = IriSP._(_anndata.tags).map(function(_title) {
             var _tags = _source.getTags(true).searchByTitle(_title, true);
