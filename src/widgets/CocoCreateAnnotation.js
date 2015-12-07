@@ -57,6 +57,11 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.pauseOnWrite = function () {
     }
 };
 
+IriSP.Widgets.CocoCreateAnnotation.prototype.resetInput = function (e) {
+    this.$.find(".Ldt-CocoCreateAnnotation-Text").val("");
+    this.setBegin(this.media.getCurrentTime());
+};
+
 IriSP.Widgets.CocoCreateAnnotation.prototype.onTextChange = function (e) {
     if (e !== undefined && e.keyCode == 13 && !e.shiftKey) {
         // Return: submit. Use shift-Return to insert a LF
@@ -138,6 +143,7 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.onSubmit = function () {
             contentType: 'application/json',
             data: _export.serialize(), /* Source is serialized */
             success: function (_data) {
+                _this.resetInput();
                 _this.showScreen('Saved');
                 if (_this.after_send_timeout) {
                     window.setTimeout(
