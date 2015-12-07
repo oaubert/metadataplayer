@@ -1,5 +1,10 @@
 IriSP.Widgets.EnrichedPlan = function (player, config) {
+    var _this = this;
     IriSP.Widgets.Widget.call(this, player, config);
+    this.throttledRefresh = IriSP._.throttle(function (full) {
+        _this.update_content();
+    }, 800, {leading: false});
+
 };
 
 IriSP.Widgets.EnrichedPlan.prototype = new IriSP.Widgets.Widget();
@@ -83,87 +88,18 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
 
 IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}</div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
+
+/**
+ * Initialize the component
+ */
+IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     var _this = this;
     // Generate a unique prefix, so that ids of input fields
     // (necessary for label association) are unique too.
     _this.prefix = IriSP.generateUuid();
-    // slides content: title, level (for toc)
-    var _slides = this.getWidgetAnnotations().sortBy(function (_annotation) {
-        return _annotation.begin;
-    });
-    if (_slides.length == 0) {
-        // No valid segmentation defined. Let's pretend there is a
-        // unique global segment.
-        _slides = [ {
-            id: "whole",
-            title: "Whole video",
-            begin: 0,
-            end: _this.media.duration,
-            thumbnail: ""
-        } ];
-    };
-    // All other annotations
-    var _annotations = this.media.getAnnotations().filter(function (a) {
-        return a.getAnnotationType().title != _this.annotation_type;
-    }).sortBy(function (_annotation) {
-        return _annotation.begin;
-    });
-
-    // Reference annotations in each slide: assume that end time is
-    // correctly set.
-    _slides.forEach(function (slide) {
-        slide.annotations = _annotations.filter(function (a) {
-            return a.begin >= slide.begin && a.begin <= slide.end;
-        });
-    });
-
     _this.renderTemplate();
     var container = _this.$.find('.Ldt-EnrichedPlan-Container');
     var content = _this.$.find('.Ldt-EnrichedPlan-Content');
-
-    function capitalize(s) {
-        // This function is defined in recent versions of _
-        return s.replace(/^[a-z]/g, function (match) {
-            return match.toUpperCase();
-        });
-    };
-
-    // Returns the note category: Own, Other, Teacher
-    function note_category(a) {
-        var category = a.meta["coco:category"] || 'other';
-        return capitalize(category);
-    };
-
-    _slides.forEach(function (slide) {
-        var _html = Mustache.to_html(_this.slideTemplate, {
-            id : slide.id,
-            atitle : IriSP.textFieldHtml(slide.getTitleOrDescription()),
-            level: (slide.content !== undefined && slide.content.data !== undefined) ? (slide.content.data.level || 1) : 1,
-            begin : slide.begin.toString(),
-            begintc: slide.begin.milliseconds,
-            thumbnail: slide.thumbnail,
-            show_slides: _this.show_slides,
-            notes: slide.annotations.map(function (a) {
-                return Mustache.to_html(_this.annotationTemplate, {
-                    id: a.id,
-                    text: IriSP.textFieldHtml(a.getTitleOrDescription()),
-                    url: document.location.href.replace(/#.*$/, '') + '#id=' + a.id + '&t=' + (a.begin / 1000.0),
-                    author: a.creator,
-                    begin: a.begin.toString(),
-                    begintc: a.begin.milliseconds,
-                    atitle: a.getTitleOrDescription().slice(0, 20),
-                    can_edit: a.meta['coco:can_edit'],
-                    category: "Ldt-EnrichedPlan-Note-" + note_category(a),
-                    filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
-                                || (note_category(a) == 'Other' && !_this.show_other_notes)
-                                || (note_category(a) == 'Teacher' && !_this.show_teacher_notes)) ? 'filtered_out' : ''
-                });
-            }).join("\n")
-        });
-        var _el = IriSP.jQuery(_html);
-        content.append(_el);
-    });
 
     container.on("click", "[data-timecode]", function () {
         _this.media.setCurrentTime(Number(this.dataset.timecode));
@@ -209,5 +145,105 @@ IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
                 }
             });
         }
+    });
+
+    return [container, content];
+};
+
+IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
+    var _this = this;
+    var _slides = this.getWidgetAnnotations().sortBy(function (_annotation) {
+        return _annotation.begin;
+    });
+    if (_slides.length == 0) {
+        // No valid segmentation defined. Let's pretend there is a
+        // unique global segment.
+        _slides = [ {
+            id: "whole",
+            title: "Whole video",
+            begin: 0,
+            end: _this.media.duration,
+            thumbnail: ""
+        } ];
+    };
+    // All other annotations
+    var _annotations = this.media.getAnnotations().filter(function (a) {
+        return a.getAnnotationType().title != _this.annotation_type;
+    }).sortBy(function (_annotation) {
+        return _annotation.begin;
+    });
+
+    // Reference annotations in each slide: assume that end time is
+    // correctly set.
+    _slides.forEach(function (slide) {
+        slide.annotations = _annotations.filter(function (a) {
+            return a.begin >= slide.begin && a.begin <= slide.end;
+        });
+    });
+
+    var container = _this.$.find('.Ldt-EnrichedPlan-Container');
+    var content = _this.$.find('.Ldt-EnrichedPlan-Content');
+    if (!container.length) {
+        // Initialization, render the container template
+        var els = _this.init_component();
+        container = els[0];
+        content = els[1];
+    } else {
+        // Update: empty the container
+        // (Should do an incremental update, TBD)
+        content.empty();
+    }
+
+    function capitalize(s) {
+        // This function is defined in recent versions of _
+        return s.replace(/^[a-z]/g, function (match) {
+            return match.toUpperCase();
+        });
+    };
+
+    // Returns the note category: Own, Other, Teacher
+    function note_category(a) {
+        var category = a.meta["coco:category"] || 'other';
+        return capitalize(category);
+    };
+
+    _slides.forEach(function (slide) {
+        var _html = Mustache.to_html(_this.slideTemplate, {
+            id : slide.id,
+            atitle : IriSP.textFieldHtml(slide.getTitleOrDescription()),
+            level: (slide.content !== undefined && slide.content.data !== undefined) ? (slide.content.data.level || 1) : 1,
+            begin : slide.begin.toString(),
+            begintc: slide.begin.milliseconds,
+            thumbnail: slide.thumbnail,
+            show_slides: _this.show_slides,
+            notes: slide.annotations.map(function (a) {
+                return Mustache.to_html(_this.annotationTemplate, {
+                    id: a.id,
+                    text: IriSP.textFieldHtml(a.getTitleOrDescription()),
+                    url: document.location.href.replace(/#.*$/, '') + '#id=' + a.id + '&t=' + (a.begin / 1000.0),
+                    author: a.creator,
+                    begin: a.begin.toString(),
+                    begintc: a.begin.milliseconds,
+                    atitle: a.getTitleOrDescription().slice(0, 20),
+                    can_edit: a.meta['coco:can_edit'],
+                    category: "Ldt-EnrichedPlan-Note-" + note_category(a),
+                    filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
+                                || (note_category(a) == 'Other' && !_this.show_other_notes)
+                                || (note_category(a) == 'Teacher' && !_this.show_teacher_notes)) ? 'filtered_out' : ''
+                });
+            }).join("\n")
+        });
+        var _el = IriSP.jQuery(_html);
+        content.append(_el);
+    });
+};
+
+IriSP.Widgets.EnrichedPlan.prototype.draw = function () {
+    var _this = this;
+    _this.init_component();
+    _this.update_content();
+
+    _this.onMdpEvent("AnnotationsList.refresh", function () {
+        _this.throttledRefresh(false);
     });
 };
