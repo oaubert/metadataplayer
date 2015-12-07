@@ -145,16 +145,6 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.onSubmit = function () {
             success: function (_data) {
                 _this.resetInput();
                 _this.showScreen('Saved');
-                if (_this.after_send_timeout) {
-                    window.setTimeout(
-                        function () {
-                            _this.close_after_send
-                                ? _this.player.trigger("CocoCreateAnnotation.hide")
-                                : _this.player.trigger("CocoCreateAnnotation.show");
-                        },
-                        _this.after_send_timeout
-                    );
-                }
                 _export.getAnnotations().removeElement(_annotation, true); /* We delete the sent annotation to avoid redundancy */
                 _export.deSerialize(_data); /* Data deserialization */
                 _this.source.merge(_export); /* We merge the deserialized data with the current source data */
