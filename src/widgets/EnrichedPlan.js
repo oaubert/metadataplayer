@@ -17,7 +17,8 @@ IriSP.Widgets.EnrichedPlan.prototype.messages = {
         other_notes: "Other Notes",
         own_notes: "Pers. notes",
         slides: "Slides",
-        search: "Search..."
+        search: "Search...",
+        whole_video: "Whole video"
     },
     fr: {
         delete_annotation: "Supprimer la note",
@@ -26,7 +27,8 @@ IriSP.Widgets.EnrichedPlan.prototype.messages = {
         other_notes: "Notes Autres",
         own_notes: "Notes perso.",
         slides: "Diapo",
-        search: "Recherchez..."
+        search: "Recherchez...",
+        whole_video: "Vidéo entière"
     }
 };
 
@@ -158,12 +160,16 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
     if (_slides.length == 0) {
         // No valid segmentation defined. Let's pretend there is a
         // unique global segment.
+        var title = _this.messages.whole_video;
         _slides = [ {
             id: "whole",
-            title: "Whole video",
+            title: title;
             begin: 0,
             end: _this.media.duration,
-            thumbnail: ""
+            thumbnail: "",
+            getTitleOrDescription: function () {
+                return title;
+            }
         } ];
     };
     // All other annotations
