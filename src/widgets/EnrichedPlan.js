@@ -41,7 +41,8 @@ IriSP.Widgets.EnrichedPlan.prototype.defaults = {
     show_slides: true,
     show_teacher_notes: true,
     show_other_notes: true,
-    show_own_notes: true
+    show_own_notes: true,
+    is_admin: false
 };
 
 IriSP.Widgets.EnrichedPlan.prototype.template =
@@ -83,12 +84,12 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '  <div class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-SlideTimecode">{{ begin }}</div>'
     + '  <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem {{^show_slides}}filtered_out{{/show_slides}} Ldt-EnrichedPlan-SlideThumbnail Ldt-EnrichedPlan-Slide-Display">{{#thumbnail}}<img title="{{ begin }} - {{ atitle }}" src="{{ thumbnail }}">{{/thumbnail}}</div>'
     + '  <div class="Ldt-EnrichedPlan-SlideContent">'
-    + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideTitle Ldt-EnrichedPlan-SlideTitle{{ level }}">{{ atitle }}</div>'
+    + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideTitle Ldt-EnrichedPlan-SlideTitle{{ level }}">{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a> </div>{{/is_admin}}{{ atitle }}</div>'
     + '     <div class="Ldt-EnrichedPlan-SlideNotes">{{{ notes }}}</div>'
     + '  </div>'
     + '</div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}</div>';
+IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a></div>{{/is_admin}}</div>';
 
 
 /**
@@ -222,6 +223,9 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
             begintc: slide.begin.milliseconds,
             thumbnail: slide.thumbnail,
             show_slides: _this.show_slides,
+            is_admin: _this.is_admin,
+            // FIXME: find an appropriate way to pass admin_url
+            admin_url: '/admin/coco/annotation/' + slide.id,
             notes: slide.annotations.map(function (a) {
                 return Mustache.to_html(_this.annotationTemplate, {
                     id: a.id,
@@ -232,6 +236,8 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                     begintc: a.begin.milliseconds,
                     atitle: a.getTitleOrDescription().slice(0, 20),
                     can_edit: a.meta['coco:can_edit'],
+                    is_admin: _this.is_admin,
+                    admin_url: '/admin/coco/annotation/' + a.id,
                     category: "Ldt-EnrichedPlan-Note-" + note_category(a),
                     filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
                                 || (note_category(a) == 'Other' && !_this.show_other_notes)

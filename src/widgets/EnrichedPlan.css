@@ -310,3 +310,7 @@ label:hover:before {
 .Ldt-EnrichedPlan-EditControl-Delete {
     background: url(img/notes_delete.svg);
 }
+
+.adminactions {
+    display: inline-block;
+}
