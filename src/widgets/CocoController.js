@@ -104,7 +104,7 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
     this.timeDisplayUpdater(new IriSP.Model.Time(0));
 };
 
-/* Update the elasped time div */
+/* Update the elapsed time div */
 IriSP.Widgets.CocoController.prototype.timeDisplayUpdater = function (_time) {
     var _totalTime = this.media.duration;
     this.$timeElapsed.html(_time.toString());
