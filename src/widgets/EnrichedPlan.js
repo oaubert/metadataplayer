@@ -161,10 +161,10 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
     if (_slides.length == 0) {
         // No valid segmentation defined. Let's pretend there is a
         // unique global segment.
-        var title = _this.messages.whole_video;
+        var title = _this.l10n.whole_video;
         _slides = [ {
             id: "whole",
-            title: title;
+            title: title,
             begin: 0,
             end: _this.media.duration,
             thumbnail: "",
