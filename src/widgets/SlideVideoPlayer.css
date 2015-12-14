@@ -88,3 +88,6 @@
     left: 50%;
     left: calc(50% - 9px);
 }
+.Ldt-SlideVideoPlayer-hidden {
+    display: none;
+}

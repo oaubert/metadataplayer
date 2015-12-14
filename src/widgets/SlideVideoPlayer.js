@@ -8,7 +8,7 @@ IriSP.Widgets.SlideVideoPlayer.prototype = new IriSP.Widgets.Widget();
 
 IriSP.Widgets.SlideVideoPlayer.prototype.defaults = {
     playerModule: "HtmlPlayer",
-    // mode is either "sidebyside" or "pip"
+    // mode is either "sidebyside", "pip" or "videoonly"
     mode: "sidebyside"
 };
 
@@ -55,6 +55,8 @@ IriSP.Widgets.SlideVideoPlayer.prototype.draw = function() {
         window.setTimeout(function () {
             _this.setMainDisplay('video');
         }, 1500);
+    } else if (_this.mode == 'videoonly') {
+        this.$.find(".Ldt-SlideVideoPlayer-panel.Ldt-SlideVideoPlayer-slide").addClass("Ldt-SlideVideoPlayer-hidden");
     } else {
         // Default : side by side
         // FIXME: this should be better implemented through a signal sent
