@@ -106,6 +106,8 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
 
     container.on("click", "[data-timecode]", function () {
         _this.media.setCurrentTime(Number(this.dataset.timecode));
+        IriSP.jQuery(".Ldt-EnrichedPlan-Selected-Timecode").removeClass("Ldt-EnrichedPlan-Selected-Timecode");
+        IriSP.jQuery(this).addClass("Ldt-EnrichedPlan-Selected-Timecode");
     });
 
     container.on("click", ".Ldt-EnrichedPlan-Control-Checkbox", function () {

@@ -314,3 +314,7 @@ label:hover:before {
 .adminactions {
     display: inline-block;
 }
+
+.Ldt-EnrichedPlan-Selected-Timecode {
+    border: 1px dashed #6cf;
+}
