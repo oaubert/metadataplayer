@@ -92,6 +92,13 @@
     font-size: 14px;
 }
 
+[data-id=whole] .Ldt-EnrichedPlan-SlideTitle {
+    display: none;
+}
+[data-id=whole] .Ldt-EnrichedPlan-SlideTimecode {
+    color: #fff !important;
+}
+
 .Ldt-EnrichedPlan-Note {
     font-weight: normal;
     font-size: 14px;
