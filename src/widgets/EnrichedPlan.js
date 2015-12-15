@@ -42,11 +42,12 @@ IriSP.Widgets.EnrichedPlan.prototype.defaults = {
     show_teacher_notes: true,
     show_other_notes: true,
     show_own_notes: true,
-    is_admin: false
+    is_admin: false,
+    flat_mode: false
 };
 
 IriSP.Widgets.EnrichedPlan.prototype.template =
-      '<div class="Ldt-EnrichedPlan-Container">'
+      '<div class="Ldt-EnrichedPlan-Container {{#flat_mode}}Ldt-EnrichedPlan-FlatMode{{/flat_mode}}">'
     + '<div class="Ldt-EnrichedPlan-Content"></div>'
     + '<form class="Ldt-EnrichedPlan-Controls">'
     + '{{#show_controls}}'
@@ -66,10 +67,12 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + '  <input id="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Own" {{#show_own_notes}}checked{{/show_own_notes}} type="checkbox">'
     + '  <label for="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Own">{{ l10n.own_notes }}</label>'
     + ' </li>'
+    + '{{^flat_mode}}'
     + ' <li>'
     + '  <input id="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Slide-Display" {{#show_slides}}checked{{/show_slides}} type="checkbox">'
     + '  <label for="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Slide-Display">{{ l10n.slides }}<br/>&nbsp;</label>'
     + ' </li>'
+    + '{{/flat_mode}}'
     + ' </ul>'
     + '</li>'
     + '</ul>'
@@ -97,6 +100,11 @@ IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin 
  */
 IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     var _this = this;
+
+    // Get slides here so that it correctly initializes implicit
+    // flat_mode if necessary (see template)
+    var _slides = this.get_slides();
+
     // Generate a unique prefix, so that ids of input fields
     // (necessary for label association) are unique too.
     _this.prefix = IriSP.generateUuid();
@@ -121,7 +129,6 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
                 content.find(".Ldt-EnrichedPlan-Slide ." + classname).addClass("filtered_out");
             }
         }
-
     });
 
     container.on("click", ".Ldt-EnrichedPlan-EditControl-Edit", function () {
@@ -155,34 +162,41 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     return [container, content];
 };
 
-IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
-    var _this = this;
-    var _slides = this.getWidgetAnnotations().sortBy(function (_annotation) {
+IriSP.Widgets.EnrichedPlan.prototype.get_slides = function () {
+    var _slides = this.flat_mode ? [] : this.getWidgetAnnotations().sortBy(function (_annotation) {
         return _annotation.begin;
     });
     if (_slides.length == 0) {
+        // Enforce flat_mode, so that it is defined in the template
+        this.flat_mode = true;
         // No valid segmentation defined. Let's pretend there is a
         // unique global segment.
-        var title = _this.l10n.whole_video;
+        var title = this.l10n.whole_video;
         _slides = [ {
             id: "whole",
             title: title,
             begin: 0,
-            end: _this.media.duration,
+            end: this.media.duration,
             thumbnail: "",
             getTitleOrDescription: function () {
                 return title;
             }
         } ];
     };
-    // All other annotations
+    return _slides;
+};
+
+IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
+    var _this = this;
+    var _slides = this.get_slides();
+
     var _annotations = this.media.getAnnotations().filter(function (a) {
         return a.getAnnotationType().title != _this.annotation_type;
     }).sortBy(function (_annotation) {
         return _annotation.begin;
     });
 
-    // Reference annotations in each slide: assume that end time is
+    // Reference annotations in each slide: assume that slide end time is
     // correctly set.
     _slides.forEach(function (slide) {
         slide.annotations = _annotations.filter(function (a) {

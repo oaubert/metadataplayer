@@ -58,13 +58,19 @@
     transition: width .4s;
 }
 
-.Ldt-EnrichedPlan-SlideThumbnail.filtered_out + .Ldt-EnrichedPlan-SlideContent {
+.Ldt-EnrichedPlan-SlideThumbnail.filtered_out + .Ldt-EnrichedPlan-SlideContent,
+.Ldt-EnrichedPlan-FlatMode .Ldt-EnrichedPlan-SlideContent {
     width: calc(100% - 40px);
     margin-left: 8px;
 }
 
-.Ldt-EnrichedPlan-SlideThumbnail.filtered_out + .Ldt-EnrichedPlan-SlideContent .Ldt-EnrichedPlan-NoteTimecode {
+.Ldt-EnrichedPlan-SlideThumbnail.filtered_out + .Ldt-EnrichedPlan-SlideContent .Ldt-EnrichedPlan-NoteTimecode,
+.Ldt-EnrichedPlan-FlatMode .Ldt-EnrichedPlan-SlideContent .Ldt-EnrichedPlan-NoteTimecode {
     display: inline-block;
+}
+
+.Ldt-EnrichedPlan-FlatMode .Ldt-EnrichedPlan-SlideThumbnail {
+    display: none;
 }
 
 .Ldt-EnrichedPlan-SlideTitle {
