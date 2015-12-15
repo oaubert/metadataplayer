@@ -311,10 +311,23 @@ label:hover:before {
     background: url(img/notes_delete.svg);
 }
 
-.adminactions {
-    display: inline-block;
-}
-
 .Ldt-EnrichedPlan-Selected-Timecode {
     border: 1px dashed #6cf;
 }
+
+.Ldt-EnrichedPlan-EditControl {
+    display: none;
+}
+
+.Ldt-EnrichedPlan-Selected-Timecode .Ldt-EnrichedPlan-EditControl {
+    display: inline-block;
+}
+
+.adminactions {
+    display: none;
+}
+
+.Ldt-EnrichedPlan-Selected-Timecode .adminactions {
+    display: inline-block;
+}
+
