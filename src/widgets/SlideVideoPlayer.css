@@ -70,17 +70,29 @@
     bottom: 2px;
     right: 2px;
 }
+.Ldt-SlideVideoPlayer-pip-pip .Ldt-SlideVideoPlayer-pip-menu-toggle-br {
+    display: none !important;
+}
 .Ldt-SlideVideoPlayer-pip-menu-toggle-tr {
     top: 2px;
     right: 2px;
+}
+.Ldt-SlideVideoPlayer-pip-tr .Ldt-SlideVideoPlayer-pip-menu-toggle-tr {
+    display: none !important;
 }
 .Ldt-SlideVideoPlayer-pip-menu-toggle-tl {
     top: 2px;
     left: 2px;
 }
+.Ldt-SlideVideoPlayer-pip-tl .Ldt-SlideVideoPlayer-pip-menu-toggle-tl {
+    display: none !important;
+}
 .Ldt-SlideVideoPlayer-pip-menu-toggle-bl {
     bottom: 2px;
     left: 2px;
+}
+.Ldt-SlideVideoPlayer-pip-bl .Ldt-SlideVideoPlayer-pip-menu-toggle-bl {
+    display: none !important;
 }
 .Ldt-SlideVideoPlayer-pip-menu-toggle-main {
     top: 50%;
