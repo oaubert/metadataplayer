@@ -43,7 +43,8 @@ IriSP.Widgets.EnrichedPlan.prototype.defaults = {
     show_other_notes: true,
     show_own_notes: true,
     is_admin: false,
-    flat_mode: false
+    flat_mode: false,
+    group: undefined
 };
 
 IriSP.Widgets.EnrichedPlan.prototype.template =
@@ -196,6 +197,11 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
         return _annotation.begin;
     });
 
+    if (_this.group) {
+        _annotations = _annotations.filter(function (a) {
+            return a.meta['coco:group'] == _this.group;
+        });
+    }
     // Reference annotations in each slide: assume that slide end time is
     // correctly set.
     _slides.forEach(function (slide) {
