@@ -175,6 +175,7 @@
     font-size: 16px;
     flex: 1;
     outline: none;
+    margin-left: 12px;
 }
 
 .Ldt-EnrichedPlan-ControlMenu {
