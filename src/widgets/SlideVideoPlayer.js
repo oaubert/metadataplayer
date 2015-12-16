@@ -53,7 +53,7 @@ IriSP.Widgets.SlideVideoPlayer.prototype.draw = function() {
             _this.setPipPosition(this.dataset.position);
         });
         window.setTimeout(function () {
-            _this.setMainDisplay('video');
+            _this.setMainDisplay('video', true);
         }, 1500);
     } else if (_this.mode == 'videoonly') {
         this.$.find(".Ldt-SlideVideoPlayer-panel.Ldt-SlideVideoPlayer-slide").addClass("Ldt-SlideVideoPlayer-hidden");
@@ -80,7 +80,7 @@ IriSP.Widgets.SlideVideoPlayer.prototype.toggleMainDisplay = function() {
 
 // Set main display (in case of a "switch" display mode)
 // main is either 'video' or 'slides'
-IriSP.Widgets.SlideVideoPlayer.prototype.setMainDisplay = function(video_or_slides) {
+IriSP.Widgets.SlideVideoPlayer.prototype.setMainDisplay = function(video_or_slides, initial_display) {
     var main = this.$.find(".Ldt-SlideVideoPlayer-panel.Ldt-SlideVideoPlayer-video");
     var pip = this.$.find(".Ldt-SlideVideoPlayer-panel.Ldt-SlideVideoPlayer-slide");
     if (video_or_slides == 'slides') {
@@ -90,6 +90,10 @@ IriSP.Widgets.SlideVideoPlayer.prototype.setMainDisplay = function(video_or_slid
     };
     main.removeClass('Ldt-SlideVideoPlayer-pip-pip').addClass('Ldt-SlideVideoPlayer-pip-main');
     pip.removeClass('Ldt-SlideVideoPlayer-pip-main').addClass('Ldt-SlideVideoPlayer-pip-pip');
+    if (initial_display) {
+        // Specify initial position
+        pip.addClass('Ldt-SlideVideoPlayer-pip-br');
+    }
 };
 
 IriSP.Widgets.SlideVideoPlayer.prototype.setPipPosition = function(position) {
