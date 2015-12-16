@@ -32,6 +32,9 @@
     width: 30% !important;
     height: 30%;
     z-index: 3;
+}
+
+.Ldt-SlideVideoPlayer-pip-br {
     bottom: 2px;
     right: 2px;
 }
@@ -70,7 +73,7 @@
     bottom: 2px;
     right: 2px;
 }
-.Ldt-SlideVideoPlayer-pip-pip .Ldt-SlideVideoPlayer-pip-menu-toggle-br {
+.Ldt-SlideVideoPlayer-pip-br .Ldt-SlideVideoPlayer-pip-menu-toggle-br {
     display: none !important;
 }
 .Ldt-SlideVideoPlayer-pip-menu-toggle-tr {
