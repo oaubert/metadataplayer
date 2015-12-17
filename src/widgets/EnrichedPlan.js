@@ -88,7 +88,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '  <div class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-SlideTimecode">{{ begin }}</div>'
     + '  <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem {{^show_slides}}filtered_out{{/show_slides}} Ldt-EnrichedPlan-SlideThumbnail Ldt-EnrichedPlan-Slide-Display">{{#thumbnail}}<img title="{{ begin }} - {{ atitle }}" src="{{ thumbnail }}">{{/thumbnail}}</div>'
     + '  <div class="Ldt-EnrichedPlan-SlideContent">'
-    + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideTitle Ldt-EnrichedPlan-SlideTitle{{ level }}">{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a> </div>{{/is_admin}}{{ atitle }}</div>'
+    + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideTitle Ldt-EnrichedPlan-SlideTitle{{ level }}" data-level="{{level}}">{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a> </div>{{/is_admin}}{{ atitle }}</div>'
     + '     <div class="Ldt-EnrichedPlan-SlideNotes">{{{ notes }}}</div>'
     + '  </div>'
     + '</div>';
