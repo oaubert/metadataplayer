@@ -88,7 +88,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '  <div class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-SlideTimecode">{{ begin }}</div>'
     + '  <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem {{^show_slides}}filtered_out{{/show_slides}} Ldt-EnrichedPlan-SlideThumbnail Ldt-EnrichedPlan-Slide-Display">{{#thumbnail}}<img title="{{ begin }} - {{ atitle }}" src="{{ thumbnail }}">{{/thumbnail}}</div>'
     + '  <div class="Ldt-EnrichedPlan-SlideContent">'
-    + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideTitle Ldt-EnrichedPlan-SlideTitle{{ level }}" data-level="{{level}}">{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a> </div>{{/is_admin}}{{ atitle }}</div>'
+    + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideTitle Ldt-EnrichedPlan-SlideTitle{{ level }}" data-level="{{level}}">{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a> <a data-id="{{id}}" target="_blank" class="level_decr">&nbsp;&lt;&nbsp;</a> <a data-id="{{id}}" target="_blank" class="level_incr">&nbsp;&gt;&nbsp;</a></div>{{/is_admin}}{{ atitle }}</div>'
     + '     <div class="Ldt-EnrichedPlan-SlideNotes">{{{ notes }}}</div>'
     + '  </div>'
     + '</div>';
@@ -141,6 +141,32 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
             _this.source.getAnnotations().removeElement(_annotation);
             _this.player.trigger("Annotation.delete", this.dataset.id);
         }
+    });
+
+    function update_level(el, inc) {
+        var an = _this.source.getElement(el.dataset.id);
+        console.log("Update ", an.title, " to ", an.content.data.level + inc);
+        an.content.data.level += inc;
+        IriSP.jQuery.ajax({
+            url: "/annotation/" + el.dataset.id + "/level/",
+            timeout: 2000,
+            type: "POST",
+            contentType: 'application/json',
+            data: JSON.stringify({'level': an.content.data.level}),
+            dataType: 'json',
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                alert("An error has occurred making the request: " + errorThrown);
+            },
+            success: function(data) {
+                _this.player.trigger("AnnotationsList.refresh");
+            }
+        });
+    };
+
+    container.on("click", ".level_incr", function () {
+        update_level(this, +1);
+    }).on("click", ".level_decr", function () {
+        update_level(this, -1);
     });
 
     container.find(".Ldt-EnrichedPlan-Search-Input").on("search", function () {
