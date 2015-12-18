@@ -44,7 +44,10 @@ IriSP.Widgets.EnrichedPlan.prototype.defaults = {
     show_own_notes: true,
     is_admin: false,
     flat_mode: false,
-    group: undefined
+    group: undefined,
+    // action_url should be a function (action, elementid) that returns a URL
+    // Possible actions: admin, edit, level
+    action_url: function (action, elementid) { return ""; }
 };
 
 IriSP.Widgets.EnrichedPlan.prototype.template =
@@ -148,7 +151,7 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
         console.log("Update ", an.title, " to ", an.content.data.level + inc);
         an.content.data.level += inc;
         IriSP.jQuery.ajax({
-            url: "/annotation/" + el.dataset.id + "/level/",
+            url: _this.action_url("level", el.dataset.id),
             timeout: 2000,
             type: "POST",
             contentType: 'application/json',
@@ -272,8 +275,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
             thumbnail: slide.thumbnail,
             show_slides: _this.show_slides,
             is_admin: _this.is_admin,
-            // FIXME: find an appropriate way to pass admin_url
-            admin_url: '/admin/coco/annotation/' + slide.id,
+            admin_url: _this.action_url('admin', slide.id),
             notes: slide.annotations.map(function (a) {
                 return Mustache.to_html(_this.annotationTemplate, {
                     id: a.id,
@@ -285,7 +287,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                     atitle: a.getTitleOrDescription().slice(0, 20),
                     can_edit: a.meta['coco:can_edit'],
                     is_admin: _this.is_admin,
-                    admin_url: '/admin/coco/annotation/' + a.id,
+                    admin_url: _this.action_url('admin', a.id),
                     category: "Ldt-EnrichedPlan-Note-" + note_category(a),
                     filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
                                 || (note_category(a) == 'Other' && !_this.show_other_notes)
