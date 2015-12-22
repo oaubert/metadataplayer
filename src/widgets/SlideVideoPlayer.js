@@ -57,6 +57,7 @@ IriSP.Widgets.SlideVideoPlayer.prototype.draw = function() {
         }, 1500);
     } else if (_this.mode == 'videoonly') {
         this.$.find(".Ldt-SlideVideoPlayer-panel.Ldt-SlideVideoPlayer-slide").addClass("Ldt-SlideVideoPlayer-hidden");
+        this.$.find(".Ldt-SlideVideoPlayer-panel.Ldt-SlideVideoPlayer-video").addClass('Ldt-SlideVideoPlayer-pip-main');
     } else {
         // Default : side by side
         // FIXME: this should be better implemented through a signal sent
