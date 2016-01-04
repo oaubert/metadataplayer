@@ -148,8 +148,10 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
 
     function update_level(el, inc) {
         var an = _this.source.getElement(el.dataset.id);
-        console.log("Update ", an.title, " to ", an.content.data.level + inc);
-        an.content.data.level += inc;
+        if (an.content.data === "") {
+            an.content.data = {level: 1};
+        };
+        an.content.data.level = (an.content.data.level || 1) + inc;
         IriSP.jQuery.ajax({
             url: _this.action_url("level", el.dataset.id),
             timeout: 2000,
