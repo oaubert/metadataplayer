@@ -73,5 +73,5 @@
 }
 
 .Ldt-CocoCtrl-Disabled {
-    display: none;
+    display: none !important;
 }
