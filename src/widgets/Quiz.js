@@ -11,7 +11,8 @@ IriSP.Widgets.Quiz.prototype.defaults = {
     analytics_api: "",
     api_method: "POST",
     user: "",
-    userid:""
+    userid:"",
+    enable_add_question: false
 };
 
 IriSP.Widgets.Quiz.prototype.template = '<div class="Ldt-Quiz-Container">'
@@ -245,7 +246,7 @@ IriSP.Widgets.Quiz.prototype.draw = function () {
     });
 
     this.onMediaEvent("pause", function () {
-        if (!_this.quiz_displayed) {
+        if (!_this.quiz_displayed && this.enable_add_question) {
             $(".Ldt-Pause-Add-Question").show();
         }
     });
@@ -260,6 +261,9 @@ IriSP.Widgets.Quiz.prototype.draw = function () {
         .on("click", function () { _this.player.trigger("QuizCreator.create"); })
         .appendTo($('#' + _this.container));
     _this.overlay.html(this.template);
+    if (!this.enable_add_question) {
+        $(".Ldt-Pause-Add-Question").hide();
+    }
 
     $(".Ldt-Quiz-Overlay").hide();
 

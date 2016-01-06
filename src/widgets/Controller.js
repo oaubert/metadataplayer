@@ -15,7 +15,8 @@ IriSP.Widgets.Controller.prototype.defaults = {
     always_show_search: false,
     // Selector for the widget that needs to be fullscreened
     fullscreen_widget: undefined,
-    enable_quiz_toggle: undefined
+    enable_quiz_toggle: undefined,
+    enable_add_question: false
 };
 
 IriSP.Widgets.Controller.prototype.template =
@@ -106,17 +107,7 @@ IriSP.Widgets.Controller.prototype.draw = function () {
     this.$playButton.click(this.functionWrapper("playHandler"));
 
     if (this.enable_quiz_toggle !== undefined) {
-        if (this.enable_quiz_toggle) {
-            this.$.find(".Ldt-Ctrl-Quiz-Enable").addClass("Ldt-Ctrl-Quiz-Toggle-Active");
-            this.$.find(".Ldt-Ctrl-Quiz-Create").addClass("Ldt-Ctrl-Quiz-Toggle-Active");
-            // this.player.trigger("QuizCreator.show");
-            this.$.find("#QuizEditContainer").show();
-        } else {
-            this.$.find(".Ldt-Ctrl-Quiz-Enable").removeClass("Ldt-Ctrl-Quiz-Toggle-Active");
-            this.$.find(".Ldt-Ctrl-Quiz-Create").removeClass("Ldt-Ctrl-Quiz-Toggle-Active");
-            this.player.trigger("QuizCreator.hide");
-            this.$.find("#QuizEditContainer").hide();
-        }
+        this.toggleQuiz(this.enable_quiz_toggle);
     } else {
         this.$.find(".Ldt-Ctrl-Quiz-Enable").hide();
     }
@@ -267,11 +258,17 @@ IriSP.Widgets.Controller.prototype.createQuiz = function () {
     this.player.trigger("QuizCreator.create");
 };
 
-IriSP.Widgets.Controller.prototype.toggleQuiz = function () {
-    this.enable_quiz_toggle = !this.enable_quiz_toggle;
+IriSP.Widgets.Controller.prototype.toggleQuiz = function (force_state) {
+    if (force_state !== undefined) {
+        this.enable_quiz_toggle = force_state;
+    } else {
+        this.enable_quiz_toggle = !this.enable_quiz_toggle;
+    }
     if (this.enable_quiz_toggle) {
         $(".Ldt-Ctrl-Quiz-Enable").addClass("Ldt-Ctrl-Quiz-Toggle-Active");
-        $(".Ldt-Ctrl-Quiz-Create").addClass("Ldt-Ctrl-Quiz-Toggle-Active");
+        if (this.enable_add_question) {
+            $(".Ldt-Ctrl-Quiz-Create").addClass("Ldt-Ctrl-Quiz-Toggle-Active");
+        }
         this.player.trigger("Quiz.activate");
     } else {
         $(".Ldt-Ctrl-Quiz-Enable").removeClass("Ldt-Ctrl-Quiz-Toggle-Active");
