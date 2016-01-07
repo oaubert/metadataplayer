@@ -325,7 +325,7 @@ label:hover:before {
 }
 
 .Ldt-EnrichedPlan-Selected-Timecode {
-    border: 1px dashed #6cf;
+    background-color: #cfcfcf;
 }
 
 .Ldt-EnrichedPlan-EditControl {
@@ -343,4 +343,3 @@ label:hover:before {
 .Ldt-EnrichedPlan-Selected-Timecode .adminactions {
     display: inline-block;
 }
-
