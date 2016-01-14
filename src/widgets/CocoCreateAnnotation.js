@@ -5,7 +5,9 @@ IriSP.Widgets.CocoCreateAnnotation = function (player, config) {
 IriSP.Widgets.CocoCreateAnnotation.prototype = new IriSP.Widgets.Widget();
 
 IriSP.Widgets.CocoCreateAnnotation.prototype.defaults = {
-    pause_on_write : true
+    pause_on_write : true,
+    /* Function that should return the current group id (or "public" for public annotations) */
+    current_group: undefined
 };
 
 IriSP.Widgets.CocoCreateAnnotation.prototype.messages = {
@@ -125,6 +127,14 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.onSubmit = function () {
     _annotation.description = this.$.find(".Ldt-CocoCreateAnnotation-Text").val().trim();
     _annotation.title = "";
 
+    var g = this.current_group && this.current_group();
+    if (g == -1) {
+        _annotation.sharing = "public";
+    } else if (g !== undefined) {
+        _annotation.sharing = "shared-" + g;
+    } else {
+        _annotation.sharing = "private";
+    }
     if (this.project_id != "") {
         /* Project id, only if it's been specifiec in the config */
         _annotation.project_id = this.project_id;
