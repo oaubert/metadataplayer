@@ -22,6 +22,7 @@ IriSP.serializers.ldt_annotate = {
             media: _data.getMedia().id,
             project: _data.project_id,
             type_title: _annType.title,
+            sharing: _data.sharing || "private",
             type: (typeof _annType.dont_send_id !== "undefined" && _annType.dont_send_id ? "" : _annType.id),
             meta: {
                 created: _data.created,
