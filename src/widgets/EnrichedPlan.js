@@ -44,6 +44,7 @@ IriSP.Widgets.EnrichedPlan.prototype.defaults = {
     show_own_notes: true,
     is_admin: false,
     flat_mode: false,
+    /* Group is either a group id, or -1 for public notes */
     group: undefined,
     // action_url should be a function (action, elementid) that returns a URL
     // Possible actions: admin, edit, level
@@ -228,11 +229,16 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
         return _annotation.begin;
     });
 
-    if (_this.group) {
+    if (_this.group > 0) {
         _annotations = _annotations.filter(function (a) {
             return a.meta['coco:group'] == _this.group;
         });
+    } else if (_this.group == -1) {
+        _annotations = _annotations.filter(function (a) {
+            return a.meta['coco:visibility'] == "public";
+        });
     }
+
     // Reference annotations in each slide: assume that slide end time is
     // correctly set.
     _slides.forEach(function (slide) {
