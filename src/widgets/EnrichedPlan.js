@@ -96,7 +96,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '  </div>'
     + '</div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a></div>{{/is_admin}}</div>';
+IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Featured{{/featured}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a></div>{{/is_admin}}</div>';
 
 
 /**
@@ -287,8 +287,10 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                     begin: a.begin.toString(),
                     begintc: a.begin.milliseconds,
                     atitle: a.getTitleOrDescription().slice(0, 20),
-                    can_edit: a.meta['coco:can_edit'],
                     is_admin: _this.is_admin,
+                    can_edit: a.meta['coco:can_edit'],
+                    visibility: (a.meta['coco:visibility'] || "").indexOf('shared-') == 0 ? "shared" : (a.meta['coco:visibility'] || "private"),
+                    featured: a.meta['coco:featured'],
                     admin_url: _this.action_url('admin', a.id),
                     category: "Ldt-EnrichedPlan-Note-" + note_category(a),
                     filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
