@@ -13,7 +13,7 @@ IriSP.Widgets.EnrichedPlan.prototype.messages = {
     en: {
         delete_annotation: "Delete note",
         confirm_delete_message: "You are about to delete {{ annotation.title }}. Are you sure you want to delete it?",
-        teacher_notes: "Teacher notes",
+        featured_notes: "Featured notes",
         other_notes: "Other Notes",
         own_notes: "Pers. notes",
         slides: "Slides",
@@ -23,7 +23,7 @@ IriSP.Widgets.EnrichedPlan.prototype.messages = {
     fr: {
         delete_annotation: "Supprimer la note",
         confirm_delete_message: "Vous allez supprimer {{ annotation.title }}. Êtes-vous certain(e) ?",
-        teacher_notes: "Notes Enseignant",
+        featured_notes: "Notes Promues",
         other_notes: "Notes Autres",
         own_notes: "Notes perso.",
         slides: "Diapo",
@@ -39,7 +39,7 @@ IriSP.Widgets.EnrichedPlan.prototype.defaults = {
     annotation_types: [],
     show_controls: true,
     show_slides: true,
-    show_teacher_notes: true,
+    show_featured_notes: true,
     show_other_notes: true,
     show_own_notes: true,
     is_admin: false,
@@ -60,8 +60,8 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + ' <input type="checkbox" class="Ldt-EnrichedPlan-ControlMenuHome" id="{{ prefix }}control_menu"/>'
     + '<ul>'
     + ' <li>'
-    + '  <input id="{{prefix}}teacher_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Teacher" {{#show_teacher_notes}}checked{{/show_teacher_notes}} type="checkbox">'
-    + '  <label for="{{prefix}}teacher_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Teacher">{{ l10n.teacher_notes }}</label>'
+    + '  <input id="{{prefix}}featured_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Featured" {{#show_featured_notes}}checked{{/show_featured_notes}} type="checkbox">'
+    + '  <label for="{{prefix}}featured_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Featured">{{ l10n.featured_notes }}</label>'
     + ' </li>'
     + ' <li>'
     + '  <input id="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Other" {{#show_other_notes}}checked{{/show_other_notes}} type="checkbox">'
@@ -261,7 +261,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
         });
     };
 
-    // Returns the note category: Own, Other, Teacher
+    // Returns the note category: Own, Other, Featured
     function note_category(a) {
         var category = a.meta["coco:category"] || 'other';
         return capitalize(category);
@@ -293,7 +293,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                     category: "Ldt-EnrichedPlan-Note-" + note_category(a),
                     filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
                                 || (note_category(a) == 'Other' && !_this.show_other_notes)
-                                || (note_category(a) == 'Teacher' && !_this.show_teacher_notes)) ? 'filtered_out' : ''
+                                || (note_category(a) == 'Featured' && !_this.show_featured_notes)) ? 'filtered_out' : ''
                 });
             }).join("\n")
         });

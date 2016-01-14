@@ -118,8 +118,8 @@
     color: inherit;
 }
 
-.Ldt-EnrichedPlan-Note-Teacher,
-.Ldt-EnrichedPlan-Note-Link.Ldt-EnrichedPlan-Note-Teacher {
+.Ldt-EnrichedPlan-Note-Featured,
+.Ldt-EnrichedPlan-Note-Link.Ldt-EnrichedPlan-Note-Featured {
     color: #e5007e;
     font-style: italic;
 }
