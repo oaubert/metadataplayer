@@ -371,3 +371,16 @@ label:hover:before {
     height: 18px;
     background: url(img/icon_group.svg);
 }
+
+.Ldt-EnrichedPlan-BarContainer {
+    position: relative;
+    height: 20px;
+}
+
+.Ldt-EnrichedPlan-Bar-Slide,
+.Ldt-EnrichedPlan-Bar-Note {
+    width: 0px;
+    height: 100%;
+    border-left: 1px solid #fff;
+    position: absolute;
+}

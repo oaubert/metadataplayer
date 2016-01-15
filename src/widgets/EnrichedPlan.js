@@ -48,7 +48,8 @@ IriSP.Widgets.EnrichedPlan.prototype.defaults = {
     group: undefined,
     // action_url should be a function (action, elementid) that returns a URL
     // Possible actions: admin, edit, level
-    action_url: function (action, elementid) { return ""; }
+    action_url: function (action, elementid) { return ""; },
+    bar_container: undefined
 };
 
 IriSP.Widgets.EnrichedPlan.prototype.template =
@@ -87,6 +88,9 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + '</form>'
     + '</div>';
 
+IriSP.Widgets.EnrichedPlan.prototype.barTemplate =
+    '<div class="Ldt-EnrichedPlan-BarContainer"></div>';
+
 IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
       '<div data-id="{{ id }}" class="Ldt-EnrichedPlan-Slide">'
     + '  <div class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-SlideTimecode">{{ begin }}</div>'
@@ -97,7 +101,13 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '  </div>'
     + '</div>';
 
+IriSP.Widgets.EnrichedPlan.prototype.slideBarTemplate =
+      '<div data-id="{{ id }}" data-timecode="{{begintc}}" data-level="{{level}}" style="left: {{position}}%" class="Ldt-EnrichedPlan-Bar-Slide Ldt-EnrichedPlan-Bar-Slide{{ level }}">'
+    + '</div>';
+
 IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Featured{{/featured}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a></div>{{/is_admin}}</div>';
+
+IriSP.Widgets.EnrichedPlan.prototype.annotationBarTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-Bar-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Featured{{/featured}}"></div>';
 
 
 /**
@@ -105,6 +115,7 @@ IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin 
  */
 IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     var _this = this;
+    _this.bar = undefined;
 
     // Get slides here so that it correctly initializes implicit
     // flat_mode if necessary (see template)
@@ -114,32 +125,37 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     // (necessary for label association) are unique too.
     _this.prefix = IriSP.generateUuid();
     _this.renderTemplate();
-    var container = _this.$.find('.Ldt-EnrichedPlan-Container');
-    var content = _this.$.find('.Ldt-EnrichedPlan-Content');
+    if (_this.bar_container) {
+        // Container for the annotation bar
+        _this.bar = IriSP.jQuery(_this.templateToHtml(_this.barTemplate));
+        IriSP.jQuery("#" + _this.bar_container).append(_this.bar);
+    }
+    _this.container = _this.$.find('.Ldt-EnrichedPlan-Container');
+    _this.content = _this.$.find('.Ldt-EnrichedPlan-Content');
 
-    container.on("click", "[data-timecode]", function () {
+    _this.container.on("click", "[data-timecode]", function () {
         _this.media.setCurrentTime(Number(this.dataset.timecode));
         IriSP.jQuery(".Ldt-EnrichedPlan-Selected-Timecode").removeClass("Ldt-EnrichedPlan-Selected-Timecode");
         IriSP.jQuery(this).addClass("Ldt-EnrichedPlan-Selected-Timecode");
     });
 
-    container.on("click", ".Ldt-EnrichedPlan-Control-Checkbox", function () {
+    _this.container.on("click", ".Ldt-EnrichedPlan-Control-Checkbox", function () {
         var classname = _.first(_.filter(this.classList, function (s) {
             return s != "Ldt-EnrichedPlan-Control-Checkbox";
         }));
         if (classname !== undefined) {
             if (IriSP.jQuery(this).is(':checked')) {
-                content.find(".Ldt-EnrichedPlan-Slide ." + classname).removeClass("filtered_out");
+                _this.content.find(".Ldt-EnrichedPlan-Slide ." + classname).removeClass("filtered_out");
             } else {
-                content.find(".Ldt-EnrichedPlan-Slide ." + classname).addClass("filtered_out");
+                _this.content.find(".Ldt-EnrichedPlan-Slide ." + classname).addClass("filtered_out");
             }
         }
     });
 
-    container.on("click", ".Ldt-EnrichedPlan-EditControl-Edit", function () {
+    _this.container.on("click", ".Ldt-EnrichedPlan-EditControl-Edit", function () {
         _this.player.trigger("Annotation.edit", this.dataset.id);
     });
-    container.on("click", ".Ldt-EnrichedPlan-EditControl-Delete", function () {
+    _this.container.on("click", ".Ldt-EnrichedPlan-EditControl-Delete", function () {
         var _annotation = _this.source.getElement(this.dataset.id);
         if (confirm(Mustache.to_html(_this.l10n.confirm_delete_message, { annotation: _annotation }))) {
             _this.source.getAnnotations().removeElement(_annotation);
@@ -169,19 +185,19 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
         });
     };
 
-    container.on("click", ".level_incr", function () {
+    _this.container.on("click", ".level_incr", function () {
         update_level(this, +1);
     }).on("click", ".level_decr", function () {
         update_level(this, -1);
     });
 
-    container.find(".Ldt-EnrichedPlan-Search-Input").on("search", function () {
+    _this.container.find(".Ldt-EnrichedPlan-Search-Input").on("search", function () {
         var q = IriSP.jQuery(this).val().toLocaleLowerCase();
         if (q === "") {
             // Show all
-            content.find(".Ldt-EnrichedPlan-Note").removeClass("non_matching");
+            _this.content.find(".Ldt-EnrichedPlan-Note").removeClass("non_matching");
         } else {
-            content.find(".Ldt-EnrichedPlan-Note").each(function () {
+            _this.content.find(".Ldt-EnrichedPlan-Note").each(function () {
                 var node = IriSP.jQuery(this);
                 if (node.text().toLocaleLowerCase().indexOf(q) > -1) {
                     node.removeClass("non_matching");
@@ -191,8 +207,6 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
             });
         }
     });
-
-    return [container, content];
 };
 
 IriSP.Widgets.EnrichedPlan.prototype.get_slides = function () {
@@ -210,6 +224,7 @@ IriSP.Widgets.EnrichedPlan.prototype.get_slides = function () {
             title: title,
             begin: 0,
             end: this.media.duration,
+            media: this.media,
             thumbnail: "",
             getTitleOrDescription: function () {
                 return title;
@@ -247,17 +262,16 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
         });
     });
 
-    var container = _this.$.find('.Ldt-EnrichedPlan-Container');
-    var content = _this.$.find('.Ldt-EnrichedPlan-Content');
-    if (!container.length) {
+    if (this.container === undefined) {
         // Initialization, render the container template
         var els = _this.init_component();
-        container = els[0];
-        content = els[1];
     } else {
         // Update: empty the container
         // (Should do an incremental update, TBD)
-        content.empty();
+        _this.content.empty();
+        if (_this.bar) {
+            _this.bar.empty();
+        }
     }
 
     function capitalize(s) {
@@ -274,12 +288,13 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
     };
 
     _slides.forEach(function (slide) {
-        var _html = Mustache.to_html(_this.slideTemplate, {
+        var slideData = {
             id : slide.id,
             atitle : IriSP.textFieldHtml(slide.getTitleOrDescription()),
             level: (slide.content !== undefined && slide.content.data !== undefined) ? (slide.content.data.level || 1) : 1,
             begin : slide.begin.toString(),
             begintc: slide.begin.milliseconds,
+            position: 100 * slide.begin.milliseconds / _this.media.duration,
             thumbnail: slide.thumbnail,
             show_slides: _this.show_slides,
             is_admin: _this.is_admin,
@@ -304,9 +319,12 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                                 || (note_category(a) == 'Featured' && !_this.show_featured_notes)) ? 'filtered_out' : ''
                 });
             }).join("\n")
-        });
-        var _el = IriSP.jQuery(_html);
-        content.append(_el);
+        };
+        _this.content.append(IriSP.jQuery(Mustache.to_html(_this.slideTemplate, slideData)));
+        if (_this.bar) {
+            var el = IriSP.jQuery(Mustache.to_html(_this.slideBarTemplate, slideData));
+            _this.bar.append(el);
+        }
     });
 };
 
