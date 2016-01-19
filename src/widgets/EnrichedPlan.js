@@ -300,6 +300,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
             is_admin: _this.is_admin,
             admin_url: _this.action_url('admin', slide.id),
             notes: slide.annotations.map(function (a) {
+                var cat = note_category(a);
                 return Mustache.to_html(_this.annotationTemplate, {
                     id: a.id,
                     text: IriSP.textFieldHtml(a.getTitleOrDescription()),
@@ -310,13 +311,13 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                     atitle: a.getTitleOrDescription().slice(0, 20),
                     is_admin: _this.is_admin,
                     can_edit: a.meta['coco:can_edit'],
-                    visibility: (a.meta['coco:visibility'] || "").indexOf('shared-') == 0 ? "shared" : (a.meta['coco:visibility'] || "private"),
+                    visibility: cat == 'Own' ? ((a.meta['coco:visibility'] || "").indexOf('shared-') == 0 ? "shared" : (a.meta['coco:visibility'] || "private")) : "none",
                     featured: a.meta['coco:featured'],
                     admin_url: _this.action_url('admin', a.id),
-                    category: "Ldt-EnrichedPlan-Note-" + note_category(a),
-                    filtered: ((note_category(a) == 'Own' && !_this.show_own_notes)
-                                || (note_category(a) == 'Other' && !_this.show_other_notes)
-                                || (note_category(a) == 'Featured' && !_this.show_featured_notes)) ? 'filtered_out' : ''
+                    category: "Ldt-EnrichedPlan-Note-" + cat,
+                    filtered: ((cat == 'Own' && !_this.show_own_notes)
+                                || (cat == 'Other' && !_this.show_other_notes)
+                                || (cat == 'Featured' && !_this.show_featured_notes)) ? 'filtered_out' : ''
                 });
             }).join("\n")
         };
