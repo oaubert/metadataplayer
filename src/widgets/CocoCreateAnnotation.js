@@ -46,6 +46,11 @@ IriSP.Widgets.CocoCreateAnnotation.prototype.draw = function () {
             _this.setBegin(_time);
         };
     });
+    this.onMediaEvent("pause", function () {
+        // Set focus on annotation zone
+        textField.focus();
+    });
+
 };
 
 IriSP.Widgets.CocoCreateAnnotation.prototype.setBegin = function (t) {
