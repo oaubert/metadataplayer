@@ -133,11 +133,15 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     _this.container = _this.$.find('.Ldt-EnrichedPlan-Container');
     _this.content = _this.$.find('.Ldt-EnrichedPlan-Content');
 
-    _this.container.on("click", "[data-timecode]", function () {
+    function go_to_timecode() {
         _this.media.setCurrentTime(Number(this.dataset.timecode));
         IriSP.jQuery(".Ldt-EnrichedPlan-Selected-Timecode").removeClass("Ldt-EnrichedPlan-Selected-Timecode");
         IriSP.jQuery(this).addClass("Ldt-EnrichedPlan-Selected-Timecode");
-    });
+    };
+    _this.container.on("click", "[data-timecode]", go_to_timecode);
+    if (_this.bar) {
+        _this.bar.on("click", "[data-timecode]", go_to_timecode);
+    }
 
     _this.container.on("click", ".Ldt-EnrichedPlan-Control-Checkbox", function () {
         var classname = _.first(_.filter(this.classList, function (s) {
