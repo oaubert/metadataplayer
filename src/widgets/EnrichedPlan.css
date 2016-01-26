@@ -9,7 +9,7 @@
     transition: max-height .6s;
 }
 
-.Ldt-EnrichedPlan-SlideItem.filtered_out {
+.filtered_out {
     max-height: 0;
     position: absolute;
     overflow: hidden;
