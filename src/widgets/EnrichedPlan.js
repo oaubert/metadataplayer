@@ -107,7 +107,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideBarTemplate =
 
 IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Featured{{/featured}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a></div>{{/is_admin}}</div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.annotationBarTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-Bar-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Featured{{/featured}}"></div>';
+IriSP.Widgets.EnrichedPlan.prototype.annotationBarTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" style="left: {{position}}%" class="Ldt-EnrichedPlan-Bar-Note {{category}} {{filtered}} {{#featured}}Ldt-EnrichedPlan-Featured{{/featured}}"></div>';
 
 
 /**
@@ -150,8 +150,14 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
         if (classname !== undefined) {
             if (IriSP.jQuery(this).is(':checked')) {
                 _this.content.find(".Ldt-EnrichedPlan-Slide ." + classname).removeClass("filtered_out");
+                if (_this.bar) {
+                    _this.bar.find("." + classname).removeClass("filtered_out");
+                }
             } else {
                 _this.content.find(".Ldt-EnrichedPlan-Slide ." + classname).addClass("filtered_out");
+                if (_this.bar) {
+                    _this.bar.find("." + classname).addClass("filtered_out");
+                }
             }
         }
     });
@@ -305,7 +311,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
             admin_url: _this.action_url('admin', slide.id),
             notes: slide.annotations.map(function (a) {
                 var cat = note_category(a);
-                return Mustache.to_html(_this.annotationTemplate, {
+                var annData = {
                     id: a.id,
                     text: IriSP.textFieldHtml(a.getTitleOrDescription()),
                     url: document.location.href.replace(/#.*$/, '') + '#id=' + a.id + '&t=' + (a.begin / 1000.0),
@@ -314,6 +320,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                     begintc: a.begin.milliseconds,
                     atitle: a.getTitleOrDescription().slice(0, 20),
                     is_admin: _this.is_admin,
+                    position: 100 * a.begin.milliseconds / _this.media.duration,
                     can_edit: a.meta['coco:can_edit'],
                     visibility: cat == 'Own' ? ((a.meta['coco:visibility'] || "").indexOf('shared-') == 0 ? "shared" : (a.meta['coco:visibility'] || "private")) : "none",
                     featured: a.meta['coco:featured'],
@@ -322,7 +329,11 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                     filtered: ((cat == 'Own' && !_this.show_own_notes)
                                 || (cat == 'Other' && !_this.show_other_notes)
                                 || (cat == 'Featured' && !_this.show_featured_notes)) ? 'filtered_out' : ''
-                });
+                };
+                if (_this.bar) {
+                    _this.bar.append(IriSP.jQuery(Mustache.to_html(_this.annotationBarTemplate, annData)));
+                }
+                return Mustache.to_html(_this.annotationTemplate, annData);
             }).join("\n")
         };
         _this.content.append(IriSP.jQuery(Mustache.to_html(_this.slideTemplate, slideData)));
