@@ -69,6 +69,19 @@
     display: inline-block;
 }
 
+.Ldt-EnrichedPlan-BarContainer {
+    position: relative;
+    height: 20px;
+}
+
+.Ldt-EnrichedPlan-Bar-Slide,
+.Ldt-EnrichedPlan-Bar-Note {
+    width: 0;
+    height: 100%;
+    border-left: 1px solid #fff;
+    position: absolute;
+}
+
 .Ldt-EnrichedPlan-FlatMode .Ldt-EnrichedPlan-SlideThumbnail {
     display: none;
 }
@@ -131,6 +144,16 @@
 .Ldt-EnrichedPlan-Note-Other,
 .Ldt-EnrichedPlan-Note-Link.Ldt-EnrichedPlan-Note-Other {
     color: #996633;
+}
+
+.Ldt-EnrichedPlan-Bar-Note.Ldt-EnrichedPlan-Note-Own {
+    border-color: #6cf;
+}
+.Ldt-EnrichedPlan-Bar-Note.Ldt-EnrichedPlan-Note-Featured {
+    border-color: #e5007e;
+}
+.Ldt-EnrichedPlan-Bar-Note.Ldt-EnrichedPlan-Note-Other {
+    border-color: #996633;
 }
 
 .Ldt-EnrichedPlan-Note-Text {
@@ -325,7 +348,8 @@ label:hover:before {
     background: url(img/notes_delete.svg);
 }
 
-.Ldt-EnrichedPlan-Selected-Timecode {
+.Ldt-EnrichedPlan-Selected-Timecode,
+.Ldt-EnrichedPlan-Note-Own:hover {
     background-color: #e9e9e9;
     min-height: 34px;
     padding-right: 32px;
@@ -338,7 +362,8 @@ label:hover:before {
     right: 0;
 }
 
-.Ldt-EnrichedPlan-Selected-Timecode .Ldt-EnrichedPlan-EditControl {
+.Ldt-EnrichedPlan-Selected-Timecode .Ldt-EnrichedPlan-EditControl,
+.Ldt-EnrichedPlan-Note:hover .Ldt-EnrichedPlan-EditControl {
     display: inline-block;
 }
 
@@ -370,17 +395,4 @@ label:hover:before {
     width: 18px;
     height: 18px;
     background: url(img/icon_group.svg);
-}
-
-.Ldt-EnrichedPlan-BarContainer {
-    position: relative;
-    height: 20px;
-}
-
-.Ldt-EnrichedPlan-Bar-Slide,
-.Ldt-EnrichedPlan-Bar-Note {
-    width: 0px;
-    height: 100%;
-    border-left: 1px solid #fff;
-    position: absolute;
 }
