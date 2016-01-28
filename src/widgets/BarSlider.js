@@ -60,11 +60,11 @@ IriSP.Widgets.BarSlider.prototype.draw = function () {
 
 IriSP.Widgets.BarSlider.prototype.onTimeupdate = function (_time) {
     var _this = this,
-        pos = _this.width * _time / _this.media.duration;
+        pos = 100 * _time / _this.media.duration;
     this.$slider.slider("value", _time);
     // Update bar position
-    this.$currentbar.css("width", pos);
-    this.$currentbarhead.css("left", pos + 4);
+    this.$currentbar.css("width", pos + "%");
+    this.$currentbarhead.css("left", "calc(" + pos + "% + 4px)");
 };
 
 IriSP.Widgets.BarSlider.prototype.onMouseout = function () {
