@@ -72,6 +72,7 @@
 .Ldt-EnrichedPlan-BarContainer {
     position: relative;
     height: 20px;
+    background-color: #999;
 }
 
 .Ldt-EnrichedPlan-Bar-Slide,
