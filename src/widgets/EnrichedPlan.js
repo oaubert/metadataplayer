@@ -102,7 +102,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '</div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.slideBarTemplate =
-      '<div data-id="{{ id }}" data-timecode="{{begintc}}" data-level="{{level}}" title="{{begin}} - {{atitle}}" style="left: {{position}}%" class="Ldt-EnrichedPlan-Bar-Slide Ldt-EnrichedPlan-Bar-Slide{{ level }}">'
+      '<div data-id="{{ id }}" data-timecode="{{begintc}}" data-level="{{level}}" title="{{begin}} - {{atitle}}" style="left: {{position}}%" class="Ldt-EnrichedPlan-Bar-Slide Ldt-EnrichedPlan-Slide-Display Ldt-EnrichedPlan-Bar-Slide{{ level }}">'
     + '</div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Featured{{/featured}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl"><span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a></div>{{/is_admin}}</div>';
