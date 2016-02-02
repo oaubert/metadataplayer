@@ -38,6 +38,8 @@
     background-color: #fff;
     bottom: 2px;
     right: 2px;
+    border: 1px solid #999;
+    box-shadow: #999 2px 2px 2px;
 }
 
 .Ldt-SlideVideoPlayer-pip-br {
