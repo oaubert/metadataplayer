@@ -36,6 +36,8 @@
     height: 30%;
     z-index: 3;
     background-color: #fff;
+    bottom: 2px;
+    right: 2px;
 }
 
 .Ldt-SlideVideoPlayer-pip-br {
