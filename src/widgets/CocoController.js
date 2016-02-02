@@ -95,6 +95,12 @@ IriSP.Widgets.CocoController.prototype.draw = function () {
         fullscreenButton.addClass("Ldt-CocoCtrl-Disabled");
     }
 
+    this.$.on("click touchstart", ".Ldt-CocoCtrl-Twitter-Button", function (e) {
+        _this.player.trigger("Player.tweet");
+    });
+    this.$.on("click touchstart", ".Ldt-CocoCtrl-Facebook-Button", function (e) {
+        _this.player.trigger("Player.facebook");
+    });
     this.$.on("click touchstart", ".Ldt-CocoCtrl-Sound", function (e) {
         e.stopPropagation();
         e.preventDefault();
