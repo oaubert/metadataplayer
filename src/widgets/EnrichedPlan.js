@@ -16,6 +16,7 @@ IriSP.Widgets.EnrichedPlan.prototype.messages = {
         featured_notes: "Featured notes",
         other_notes: "Other Notes",
         own_notes: "Pers. notes",
+        popup_tabconfig: "Configure tab display",
         slides: "Slides",
         search: "Search...",
         whole_video: "Whole video"
@@ -26,6 +27,7 @@ IriSP.Widgets.EnrichedPlan.prototype.messages = {
         featured_notes: "Notes Promues",
         other_notes: "Notes Autres",
         own_notes: "Notes perso.",
+        popup_tabconfig: "Configurer les onglets",
         slides: "Diapo",
         search: "Recherchez...",
         whole_video: "Vidéo entière"
@@ -61,6 +63,7 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + ' <label for="{{ prefix }}control_menu" class="Ldt-EnrichedPlan-Toggle"></label>'
     + ' <input type="checkbox" class="Ldt-EnrichedPlan-ControlMenuHome" id="{{ prefix }}control_menu"/>'
     + '<ul>'
+    + ' <li class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Tabconfig">{{l10n.popup_tabconfig}}</li>'
     + ' <li>'
     + '  <input id="{{prefix}}featured_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Featured" {{#show_featured_notes}}checked{{/show_featured_notes}} type="checkbox">'
     + '  <label for="{{prefix}}featured_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Featured">{{ l10n.featured_notes }}</label>'
@@ -142,6 +145,10 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     if (_this.bar) {
         _this.bar.on("click", "[data-timecode]", go_to_timecode);
     }
+
+    _this.container.on("click", ".Ldt-EnrichedPlan-Tabconfig", function () {
+        _this.player.trigger("Player.tabconfig");
+    });
 
     _this.container.on("click", ".Ldt-EnrichedPlan-Control-Checkbox", function () {
         var classname = _.first(_.filter(this.classList, function (s) {
