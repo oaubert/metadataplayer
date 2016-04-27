@@ -21,6 +21,7 @@ IriSP.Widgets.Quiz.prototype.template = '<div class="Ldt-Quiz-Container">'
                                         + '</div>'
                                         + '<div class="Ldt-Quiz-Content">'
                                         + '  <h1 class="Ldt-Quiz-Title">{{question}}</h1>'
+                                        + '  <div class="Ldt-Quiz-Result">Bonne réponse</div>'
                                         + '  <div class="Ldt-Quiz-Questions">'
                                         + '  </div>'
                                         + '</div>'
@@ -37,7 +38,6 @@ IriSP.Widgets.Quiz.prototype.template = '<div class="Ldt-Quiz-Container">'
                                         + '      <div class="Ldt-Quiz-Submit-Button"><input type="button" value="Valider" /></div>'
                                         + '      <div class="Ldt-Quiz-Submit-Skip-Link"><a href="#">Passer</a></div><div style="clear:both;"></div>'
                                         + '  </div>'
-                                        + '  <div class="Ldt-Quiz-Result">Bonne réponse</div>'
                                         + '</div>'
                                         + '</div>';
 
@@ -93,7 +93,9 @@ IriSP.Widgets.Quiz.prototype.update = function (annotation) {
         if (resource != null) {
             QR = '<div class="quiz-resource-block" id="resource" >' + resource + '</div>';
         };
-        $(".Ldt-Quiz-Questions").html(QR + output);
+        $(".Ldt-Quiz-Questions")
+            .addClass(".Ldt-Quiz-Questions-" + annotation.content.data.type)
+            .html(QR + output);
         $(".Ldt-Quiz-Overlay").fadeIn();
 
         $(".Ldt-Quiz-Submit").fadeIn();
@@ -150,26 +152,30 @@ IriSP.Widgets.Quiz.prototype.answer = function () {
         if ((ans.correct && !checked)
             || (!ans.correct && checked)) {
             wrong += 1;
-            IriSP.jQuery(this).parents(".quiz-question-block").append('<div class="quiz-question-feedback quiz-question-incorrect-feedback">' + insert_timecode_links(ans.feedback) + '</div>');
+            IriSP.jQuery(this).parents(".quiz-question-block")
+                .addClass(ans.correct ? "Ldt-Quiz-Answer-Right" : "Ldt-Quiz-Answer-Wrong")
+                .append('<div class="quiz-question-feedback quiz-question-incorrect-feedback">' + insert_timecode_links(ans.feedback) + '</div>');
         } else {
-            IriSP.jQuery(this).parents(".quiz-question-block").append('<div class="quiz-question-feedback quiz-question-correct-feedback">' + insert_timecode_links(ans.feedback) + '</div>');
+            IriSP.jQuery(this).parents(".quiz-question-block")
+                .addClass(ans.correct ? "Ldt-Quiz-Answer-Right" : "Ldt-Quiz-Answer-Wrong")
+                .append('<div class="quiz-question-feedback quiz-question-correct-feedback">' + insert_timecode_links(ans.feedback) + '</div>');
         }
         i++;
     });
 
     if (wrong) {
+        _this.$.find(".Ldt-Quiz-Content").removeClass(".Ldt-Quiz-Result-Correct").addClass(".Ldt-Quiz-Result-Incorrect");
         $(".Ldt-Quiz-Result").html("Mauvaise réponse");
-        $(".Ldt-Quiz-Result").css({"background-color" : "red"});
+        $(".Ldt-Quiz-Result").css({"background-color" : "#f86060"});
         this.correct[this.annotation.id] = 0;
     } else {
+        _this.$.find(".Ldt-Quiz-Content").removeClass(".Ldt-Quiz-Result-Incorrect").addClass(".Ldt-Quiz-Result-Correct");
         $(".Ldt-Quiz-Result").html("Bonne réponse !");
-        $(".Ldt-Quiz-Result").css({"background-color" : "green"});
+        $(".Ldt-Quiz-Result").css({"background-color" : "#5bce5b"});
         this.correct[this.annotation.id] = 1;
     }
 
-    $(".Ldt-Quiz-Result").animate({height:"100%"}, 500, "linear", function () {
-        $(".Ldt-Quiz-Result").delay(2000).animate({ height:"0%" }, 500);
-    });
+    $(".Ldt-Quiz-Result").show(500);
 
     var question_number = this.annotation.number + 1;
     var correctness = this.globalScore();
@@ -198,7 +204,7 @@ IriSP.Widgets.Quiz.prototype.close_quiz = function () {
     var _this = this;
     _this.hide();
     $(".Ldt-Pause-Add-Question").hide();
-    _this.$.find(".Ldt-Quiz-Content").removeClass(".Ldt-Quiz-Result-Correct").removeClass(".Ldt-Quiz-Result-Incorrect");
+    _this.$.find(".Ldt-Quiz-Result").removeClass(".Ldt-Quiz-Result-Correct").removeClass(".Ldt-Quiz-Result-Incorrect").hide();
     // Resume the current video
     _this.media.play();
 };
