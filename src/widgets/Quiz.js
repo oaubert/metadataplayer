@@ -111,9 +111,8 @@ IriSP.Widgets.Quiz.prototype.update = function (annotation) {
 
         //In case we click on the first "Skip" link
         $(".Ldt-Quiz-Submit-Skip-Link").click({media: this.media}, function (event) {
-            _this.hide();
             _this.player.trigger("QuizCreator.skip");
-            event.data.media.play();
+            _this.close_quiz();
         });
     }
 };
@@ -195,6 +194,15 @@ IriSP.Widgets.Quiz.prototype.globalScore = function () {
     return [ok, not_ok];
 };
 
+IriSP.Widgets.Quiz.prototype.close_quiz = function () {
+    var _this = this;
+    _this.hide();
+    $(".Ldt-Pause-Add-Question").hide();
+    _this.$.find(".Ldt-Quiz-Content").removeClass(".Ldt-Quiz-Result-Correct").removeClass(".Ldt-Quiz-Result-Incorrect");
+    // Resume the current video
+    _this.media.play();
+};
+
 IriSP.Widgets.Quiz.prototype.refresh = function () {
     var _annotations = this.getWidgetAnnotations().sortBy(function (_annotation) {
         return _annotation.begin;
@@ -274,9 +282,8 @@ IriSP.Widgets.Quiz.prototype.draw = function () {
     //In case we click on the first "Skip" link
     $(".Ldt-Quiz-Submit-Skip-Link").click({ media: this.media }, function (event) {
         _this.submit(_this.user, _this.userid, _this.annotation.id, "skipped_answer", 0);
-        _this.hide();
+        _this.close_quiz();
         _this.player.trigger("QuizCreator.skip");
-        event.data.media.play();
     });
 
     $(".Ldt-Quiz-Votes-Buttons input[type=\"button\"], .Ldt-Quiz-Votes-Buttons a").click({media: this.media}, function (event) {
@@ -299,12 +306,7 @@ IriSP.Widgets.Quiz.prototype.draw = function () {
 
         _this.submit(_this.user, _this.userid, _this.annotation.id, vote_prop, vote_val);
 
-        //Resume the current video
-        event.data.media.play();
-
-        _this.hide();
-        $(".Ldt-Pause-Add-Question").hide();
-
+        _this.close_quiz();
         _this.player.trigger("QuizCreator.skip");
     });
 
