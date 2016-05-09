@@ -10,6 +10,13 @@
 	font-size: 18pt;
 }
 
+.Ldt-Fullscreen-Element .Ldt-Quiz-Container {
+    font-size: 40pt;
+    top: 40px;
+    height: calc(100% - 60px);
+    width: calc(100% - 60px);
+}
+
 .Ldt-Quiz-Title {
     line-height: 1;
     padding-top: 10px;
