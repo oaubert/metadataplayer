@@ -104,23 +104,23 @@ IriSP.Widgets.EnrichedPlan.prototype.barTemplate =
     '<div class="Ldt-EnrichedPlan-BarContainer"></div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
-      '<div data-id="{{ id }}" class="Ldt-EnrichedPlan-Slide">'
+      '<div data-id="{{ id }}" class="Ldt-EnrichedPlan-Slide Ldt-TraceMe" data-annotation="{{ id }}" trace-info="annotation-id:{{id}}, media-id:{{media_id}}">'
     + '  <div class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-SlideTimecode">{{ begin }}</div>'
-    + '  <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem {{^show_slides}}filtered_out{{/show_slides}} Ldt-EnrichedPlan-SlideThumbnail Ldt-EnrichedPlan-Slide-Display">{{#thumbnail}}<img title="{{ begin }} - {{ atitle }}" src="{{ thumbnail }}">{{/thumbnail}}</div>'
+    + '  <div data-timecode="{{begin_ms}}" class="Ldt-EnrichedPlan-SlideItem {{^show_slides}}filtered_out{{/show_slides}} Ldt-EnrichedPlan-SlideThumbnail Ldt-EnrichedPlan-Slide-Display">{{#thumbnail}}<img title="{{ begin }} - {{ atitle }}" src="{{ thumbnail }}">{{/thumbnail}}</div>'
     + '  <div class="Ldt-EnrichedPlan-SlideContent">'
-    + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideTitle Ldt-EnrichedPlan-SlideTitle{{ level }}" data-level="{{level}}">{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a> <a data-id="{{id}}" target="_blank" class="level_decr">&nbsp;&lt;&nbsp;</a> <a data-id="{{id}}" target="_blank" class="level_incr">&nbsp;&gt;&nbsp;</a></div>{{/is_admin}}{{ atitle }}</div>'
-    + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideDescription">{{description}}</div>'
+    + '     <div data-timecode="{{begin_ms}}" class="Ldt-EnrichedPlan-SlideTitle Ldt-EnrichedPlan-SlideTitle{{ level }}" data-level="{{level}}">{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a> <a data-id="{{id}}" target="_blank" class="level_decr">&nbsp;&lt;&nbsp;</a> <a data-id="{{id}}" target="_blank" class="level_incr">&nbsp;&gt;&nbsp;</a></div>{{/is_admin}}{{ atitle }}</div>'
+    + '     <div data-timecode="{{begin_ms}}" class="Ldt-EnrichedPlan-SlideDescription">{{description}}</div>'
     + '     <div class="Ldt-EnrichedPlan-SlideNotes">{{{ notes }}}</div>'
     + '  </div>'
     + '</div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.slideBarTemplate =
-      '<div data-id="{{ id }}" data-timecode="{{begintc}}" data-level="{{level}}" title="{{begin}} - {{atitle}}" style="left: {{position}}%" class="Ldt-EnrichedPlan-Bar-Slide Ldt-EnrichedPlan-Slide-Display Ldt-EnrichedPlan-Bar-Slide{{ level }}">'
+      '<div data-id="{{ id }}" data-timecode="{{begin_ms}}" data-level="{{level}}" title="{{begin}} - {{atitle}}" style="left: {{position}}%" class="Ldt-EnrichedPlan-Bar-Slide Ldt-EnrichedPlan-Slide-Display Ldt-EnrichedPlan-Bar-Slide{{ level }} Ldt-TraceMe" trace-info="annotation-id:{{id}}, media-id:{{media_id}}">'
     + '</div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Note-Featured{{/featured}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl">{{#is_admin}}<span data-id="{{id}}" title="{{l10n.toggle_featured}}" class="Ldt-EnrichedPlan-EditControl-Featured"></span>{{/is_admin}}<span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}{{#is_admin}}<div class="adminactions"> <a target="_blank" data-id="{{id}}" href="{{ admin_url }}" class="editelement">&#x270f;</a></div>{{/is_admin}}</div>';
+IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begin_ms}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Note-Featured{{/featured}} Ldt-TraceMe" trace-info="annotation-id:{{id}}, media-id:{{media_id}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl">{{#is_admin}}<span data-id="{{id}}" title="{{l10n.toggle_featured}}" class="Ldt-EnrichedPlan-EditControl-Featured"></span>{{/is_admin}}<span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}{{#is_admin}}<div class="adminactions"> <a target="_blank" data-id="{{id}}" href="{{ admin_url }}" class="editelement">&#x270f;</a></div>{{/is_admin}}</div>';
 
-IriSP.Widgets.EnrichedPlan.prototype.annotationBarTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begintc}}" style="left: {{position}}%" class="Ldt-EnrichedPlan-Bar-Note {{category}} {{filtered}} {{#featured}}Ldt-EnrichedPlan-Note-Featured{{/featured}}"></div>';
+IriSP.Widgets.EnrichedPlan.prototype.annotationBarTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begin_ms}}" style="left: {{position}}%" class="Ldt-EnrichedPlan-Bar-Note {{category}} {{filtered}} {{#featured}}Ldt-EnrichedPlan-Note-Featured{{/featured}} Ldt-TraceMe" trace-info="annotation-id:{{id}}, media-id:{{media_id}}"></div>';
 
 
 /**
@@ -354,11 +354,13 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
     _slides.forEach(function (slide) {
         var slideData = {
             id : slide.id,
+            media_id: slide.media.id,
             atitle : IriSP.textFieldHtml(slide.getTitleOrDescription()),
             description: IriSP.textFieldHtml(slide.description),
             level: (slide.content !== undefined && slide.content.data !== undefined) ? (slide.content.data.level || 1) : 1,
             begin : slide.begin.toString(),
-            begintc: slide.begin.milliseconds,
+            begin_ms: slide.begin.milliseconds,
+            end_ms: slide.end.milliseconds,
             position: 100 * slide.begin.milliseconds / _this.media.duration,
             thumbnail: slide.thumbnail,
             show_slides: _this.show_slides,
@@ -368,11 +370,13 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                 var cat = note_category(a);
                 var annData = {
                     id: a.id,
+                    media_id: a.media.id,
                     text: IriSP.textFieldHtml(a.getTitleOrDescription()),
                     url: document.location.href.replace(/#.*$/, '') + '#id=' + a.id + '&t=' + (a.begin / 1000.0),
                     author: a.creator,
                     begin: a.begin.toString(),
-                    begintc: a.begin.milliseconds,
+                    begin_ms: a.begin.milliseconds,
+                    end_ms: a.end.milliseconds,
                     atitle: a.getTitleOrDescription().slice(0, 20),
                     is_admin: _this.is_admin,
                     position: 100 * a.begin.milliseconds / _this.media.duration,
