@@ -92,6 +92,10 @@
     display: none;
 }
 
+.Ldt-EnrichedPlan-SlideDescription {
+    display: none;
+}
+
 .Ldt-EnrichedPlan-SlideTitle {
     display: inline-block;
     font-size: 14px;
@@ -260,6 +264,7 @@
   display: inline-block;
 }
 
+.Ldt-EnrichedPlan-Slide.non_matching,
 .Ldt-EnrichedPlan-Note.non_matching {
     display: none;
 }

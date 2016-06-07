@@ -109,6 +109,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '  <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideItem {{^show_slides}}filtered_out{{/show_slides}} Ldt-EnrichedPlan-SlideThumbnail Ldt-EnrichedPlan-Slide-Display">{{#thumbnail}}<img title="{{ begin }} - {{ atitle }}" src="{{ thumbnail }}">{{/thumbnail}}</div>'
     + '  <div class="Ldt-EnrichedPlan-SlideContent">'
     + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideTitle Ldt-EnrichedPlan-SlideTitle{{ level }}" data-level="{{level}}">{{#is_admin}}<div class="adminactions"><a target="_blank" href="{{ admin_url }}" class="editelement">&#x270f;</a> <a data-id="{{id}}" target="_blank" class="level_decr">&nbsp;&lt;&nbsp;</a> <a data-id="{{id}}" target="_blank" class="level_incr">&nbsp;&gt;&nbsp;</a></div>{{/is_admin}}{{ atitle }}</div>'
+    + '     <div data-timecode="{{begintc}}" class="Ldt-EnrichedPlan-SlideDescription">{{description}}</div>'
     + '     <div class="Ldt-EnrichedPlan-SlideNotes">{{{ notes }}}</div>'
     + '  </div>'
     + '</div>';
@@ -245,11 +246,21 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
         if (q === "") {
             // Show all
             _this.content.find(".Ldt-EnrichedPlan-Note").removeClass("non_matching");
+            _this.content.find(".Ldt-EnrichedPlan-Slide").removeClass("non_matching");
         } else {
-            _this.content.find(".Ldt-EnrichedPlan-Note").each(function () {
+            _this.content.find(".Ldt-EnrichedPlan-Slide").each(function () {
                 var node = IriSP.jQuery(this);
                 if (node.text().toLocaleLowerCase().indexOf(q) > -1) {
                     node.removeClass("non_matching");
+                    // Hide non-matching notes from the slide
+                    node.find(".Ldt-EnrichedPlan-Note").each(function () {
+                        var node = IriSP.jQuery(this);
+                        if (node.text().toLocaleLowerCase().indexOf(q) > -1) {
+                            node.removeClass("non_matching");
+                        } else {
+                            node.addClass("non_matching");
+                        }
+                    });
                 } else {
                     node.addClass("non_matching");
                 }
@@ -275,6 +286,7 @@ IriSP.Widgets.EnrichedPlan.prototype.get_slides = function () {
             end: this.media.duration,
             media: this.media,
             thumbnail: "",
+            description: "",
             getTitleOrDescription: function () {
                 return title;
             }
@@ -343,6 +355,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
         var slideData = {
             id : slide.id,
             atitle : IriSP.textFieldHtml(slide.getTitleOrDescription()),
+            description: IriSP.textFieldHtml(slide.description),
             level: (slide.content !== undefined && slide.content.data !== undefined) ? (slide.content.data.level || 1) : 1,
             begin : slide.begin.toString(),
             begintc: slide.begin.milliseconds,
