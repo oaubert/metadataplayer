@@ -31,6 +31,13 @@ IriSP.Widgets.ImageDisplay.prototype.draw = function() {
 
     _this.$.find(".Ldt-ImageDisplay-Overlay-Left").on("click", function () { _this.navigate(-1); });
     _this.$.find(".Ldt-ImageDisplay-Overlay-Right").on("click", function () { _this.navigate(+1); });
+    _this.$.find(".Ldt-ImageDisplay-Container").on("click", function () {
+        if (_this.media.getPaused()) {
+            _this.media.play();
+        } else {
+            _this.media.pause();
+        }
+    });
 
     _annotations.forEach(function(_a) {
         _a.on("enter", function() {
