@@ -83,7 +83,14 @@
     border-left: 1px solid #fff;
     position: absolute;
 }
-.Ldt-EnrichedPlan-Bar-Slide:hover,
+.Ldt-EnrichedPlan-Bar-Slide {
+    background-color: rgba(200, 200, 200, .5);
+}
+
+.Ldt-EnrichedPlan-Bar-Slide:hover {
+    background-color: #fff;
+}
+
 .Ldt-EnrichedPlan-Bar-Note:hover {
     border-width: 5px;
 }

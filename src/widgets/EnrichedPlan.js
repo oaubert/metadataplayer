@@ -115,7 +115,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideTemplate =
     + '</div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.slideBarTemplate =
-      '<div data-id="{{ id }}" data-timecode="{{begin_ms}}" data-level="{{level}}" title="{{begin}} - {{atitle}}" style="left: {{position}}%" class="Ldt-EnrichedPlan-Bar-Slide Ldt-EnrichedPlan-Slide-Display Ldt-EnrichedPlan-Bar-Slide{{ level }} Ldt-TraceMe" trace-info="annotation-id:{{id}}, media-id:{{media_id}}">'
+      '<div data-id="{{ id }}" data-timecode="{{begin_ms}}" data-end="{{end_ms}}" data-level="{{level}}" title="{{begin}} - {{atitle}}" style="left: {{position}}%; width: {{width}}%;" class="Ldt-EnrichedPlan-Bar-Slide Ldt-EnrichedPlan-Slide-Display Ldt-EnrichedPlan-Bar-Slide{{ level }} Ldt-TraceMe" trace-info="annotation-id:{{id}}, media-id:{{media_id}}">'
     + '</div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate = '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begin_ms}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Note-Featured{{/featured}} Ldt-TraceMe" trace-info="annotation-id:{{id}}, media-id:{{media_id}}"><div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div><a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> <span class="Ldt-EnrichedPlan-Note-Author">{{ author }}</span> {{#can_edit}}<span class="Ldt-EnrichedPlan-EditControl">{{#is_admin}}<span data-id="{{id}}" title="{{l10n.toggle_featured}}" class="Ldt-EnrichedPlan-EditControl-Featured"></span>{{/is_admin}}<span data-id="{{id}}" class="Ldt-EnrichedPlan-EditControl-Edit"></span></span>{{/can_edit}}{{#is_admin}}<div class="adminactions"> <a target="_blank" data-id="{{id}}" href="{{ admin_url }}" class="editelement">&#x270f;</a></div>{{/is_admin}}</div>';
@@ -247,22 +247,37 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
             // Show all
             _this.content.find(".Ldt-EnrichedPlan-Note").removeClass("non_matching");
             _this.content.find(".Ldt-EnrichedPlan-Slide").removeClass("non_matching");
+            if (_this.bar) {
+                _this.bar.find(".Ldt-EnrichedPlan-Bar-Note").removeClass("non_matching");
+            }
         } else {
             _this.content.find(".Ldt-EnrichedPlan-Slide").each(function () {
                 var node = IriSP.jQuery(this);
                 if (node.text().toLocaleLowerCase().indexOf(q) > -1) {
                     node.removeClass("non_matching");
+                    if (_this.bar) {
+                        _this.bar.find("[data-id=" + this.dataset.id + "]").removeClass("non_matching");
+                    }
                     // Hide non-matching notes from the slide
                     node.find(".Ldt-EnrichedPlan-Note").each(function () {
                         var node = IriSP.jQuery(this);
                         if (node.text().toLocaleLowerCase().indexOf(q) > -1) {
                             node.removeClass("non_matching");
+                            if (_this.bar) {
+                                _this.bar.find("[data-id=" + this.dataset.id + "]").removeClass("non_matching");
+                            }
                         } else {
                             node.addClass("non_matching");
+                            if (_this.bar) {
+                                _this.bar.find("[data-id=" + this.dataset.id + "]").addClass("non_matching");
+                            }
                         }
                     });
                 } else {
                     node.addClass("non_matching");
+                    if (_this.bar) {
+                        _this.bar.find("[data-id=" + this.dataset.id + "]").addClass("non_matching");
+                    }
                 }
             });
         }
@@ -351,6 +366,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
         return capitalize(category);
     };
 
+    var annotationBarData = [];
     _slides.forEach(function (slide) {
         var slideData = {
             id : slide.id,
@@ -362,6 +378,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
             begin_ms: slide.begin.milliseconds,
             end_ms: slide.end.milliseconds,
             position: 100 * slide.begin.milliseconds / _this.media.duration,
+            width: 100 * (slide.end.milliseconds - slide.begin.milliseconds) / _this.media.duration,
             thumbnail: slide.thumbnail,
             show_slides: _this.show_slides,
             is_admin: _this.is_admin,
@@ -392,15 +409,19 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                               ) ? 'filtered_out' : ''
                 };
                 if (_this.bar) {
-                    _this.bar.append(IriSP.jQuery(Mustache.to_html(_this.annotationBarTemplate, annData)));
+                    annotationBarData.push(IriSP.jQuery(Mustache.to_html(_this.annotationBarTemplate, annData)));
                 }
                 return Mustache.to_html(_this.annotationTemplate, annData);
             }).join("\n")
         };
         _this.content.append(IriSP.jQuery(Mustache.to_html(_this.slideTemplate, slideData)));
+        // Populate bar, starting with slides
         if (_this.bar) {
             var el = IriSP.jQuery(Mustache.to_html(_this.slideBarTemplate, slideData));
             _this.bar.append(el);
+            annotationBarData.forEach(function (dom) {
+                _this.bar.append(dom);
+            });
         }
     });
 };
