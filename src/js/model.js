@@ -681,6 +681,14 @@ IriSP.Model = (function (ns) {
         this.trigger("setpause");
     };
 
+    Playable.prototype.togglePlayPause = function () {
+        if (this.getPaused()) {
+            this.play();
+        } else {
+            this.pause();
+        };
+    };
+
     Playable.prototype.show = function() {};
 
     Playable.prototype.hide = function() {};
