@@ -213,3 +213,10 @@ IriSP.generateUuid = function () {
         return v.toString(16);
     });
 };
+
+/**
+ * Return a non-accentuated version of the given string
+ */
+IriSP.unaccent = function (s) {
+    return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+};

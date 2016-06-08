@@ -95,6 +95,13 @@
     border-width: 5px;
 }
 
+.Ldt-EnrichedPlan-Bar-Slide.filtered_out,
+.Ldt-EnrichedPlan-Bar-Note.filtered_out,
+.Ldt-EnrichedPlan-Bar-Slide.non_matching,
+.Ldt-EnrichedPlan-Bar-Note.non_matching {
+    display: none;
+}
+
 .Ldt-EnrichedPlan-FlatMode .Ldt-EnrichedPlan-SlideThumbnail {
     display: none;
 }

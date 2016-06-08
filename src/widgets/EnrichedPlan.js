@@ -242,7 +242,7 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     });
 
     _this.container.find(".Ldt-EnrichedPlan-Search-Input").on("search", function () {
-        var q = IriSP.jQuery(this).val().toLocaleLowerCase();
+        var q = IriSP.unaccent(IriSP.jQuery(this).val().toLocaleLowerCase());
         if (q === "") {
             // Show all
             _this.content.find(".Ldt-EnrichedPlan-Note").removeClass("non_matching");
@@ -253,7 +253,7 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
         } else {
             _this.content.find(".Ldt-EnrichedPlan-Slide").each(function () {
                 var node = IriSP.jQuery(this);
-                if (node.text().toLocaleLowerCase().indexOf(q) > -1) {
+                if (IriSP.unaccent(node.text().toLocaleLowerCase()).indexOf(q) > -1) {
                     node.removeClass("non_matching");
                     if (_this.bar) {
                         _this.bar.find("[data-id=" + this.dataset.id + "]").removeClass("non_matching");
@@ -261,7 +261,7 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
                     // Hide non-matching notes from the slide
                     node.find(".Ldt-EnrichedPlan-Note").each(function () {
                         var node = IriSP.jQuery(this);
-                        if (node.text().toLocaleLowerCase().indexOf(q) > -1) {
+                        if (IriSP.unaccent(node.text().toLocaleLowerCase()).indexOf(q) > -1) {
                             node.removeClass("non_matching");
                             if (_this.bar) {
                                 _this.bar.find("[data-id=" + this.dataset.id + "]").removeClass("non_matching");
