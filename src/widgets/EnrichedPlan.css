@@ -2,6 +2,8 @@
     border-bottom: 2px dotted #ccc;
     padding-top: 4px;
     cursor: pointer;
+    -webkit-user-select: initial;
+    user-select: initial;
 }
 
 .Ldt-EnrichedPlan-SlideItem {
@@ -74,6 +76,8 @@
     height: 20px;
     background-color: #999;
     padding: 0 4px;
+    -webkit-user-select: initial;
+    user-select: initial;
 }
 
 .Ldt-EnrichedPlan-Bar-Slide,
