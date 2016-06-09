@@ -29,7 +29,8 @@ IriSP.libFiles = {
         processing: "processing-1.3.6.min.js",
         recordMicSwf: "record_mic.swf",
         mousetrap: "mousetrap.min.js",
-        mousetrapGlobal: "mousetrap-global-bind.js"
+        mousetrapGlobal: "mousetrap-global-bind.js",
+        markjs: "jquery.mark.min.js"
     },
     locations : {
         // use to define locations outside default_dir
@@ -110,6 +111,9 @@ IriSP.widgetsRequirements = {
     },
     Shortcuts: {
         requires: [ "mousetrap", "mousetrapGlobal" ]
+    },
+    EnrichedPlan: {
+        requires: [ "markjs" ]
     }
 };
 
