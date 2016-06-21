@@ -123,7 +123,7 @@
 
 .Ldt-EnrichedPlan-SlideExpander {
     display: inline-block;
-    background: url(img/right_arrow.svg) center/80% no-repeat;
+    background: url(img/slide_content_show.svg) center/100% no-repeat;
     margin: 1px;
     border: 1px solid grey;
     width: 10px;
@@ -132,7 +132,7 @@
 }
 
 .Ldt-EnrichedPlan-Expanded .Ldt-EnrichedPlan-SlideExpander {
-    background: url(img/checked.svg) center/80% no-repeat;
+    background: url(img/slide_content_hide.svg) center/100% no-repeat;
 }
 
 .Ldt-EnrichedPlan-SlideTitle {
