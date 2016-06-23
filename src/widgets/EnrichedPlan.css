@@ -55,7 +55,8 @@
 }
 
 .Ldt-EnrichedPlan-SlideContent {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     width: calc(100% - 220px);
     transition: width .4s;
 }
@@ -219,7 +220,8 @@
     word-wrap: break-word;
 }
 
-.Ldt-EnrichedPlan-Note-Author {
+.Ldt-EnrichedPlan-Note-Author,
+.Ldt-EnrichedPlan-Comment-Author {
     text-transform: uppercase;
     font-size: 10px;
 }
@@ -456,4 +458,24 @@ label:hover:before {
     width: 18px;
     height: 18px;
     background: url(img/icon_group.svg);
+}
+
+.Ldt-EnrichedPlan-Comments {
+    display: none;
+}
+.Ldt-EnrichedPlan-Selected-Timecode .Ldt-EnrichedPlan-Comments {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 10px;
+}
+
+.Ldt-EnrichedPlan-Comment-New.Ldt-EnrichedPlan-Expanded {
+    display: inline-flex;
+}
+
+.Ldt-EnrichedPlan-Comment-New-Text {
+    font-family: Merriweather;
+    font-size: 12px;
+    width: 100%;
 }
