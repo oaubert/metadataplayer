@@ -317,6 +317,9 @@
 .Ldt-EnrichedPlan-Control-Label {
     cursor: pointer;
 }
+.Ldt-EnrichedPlan-Control-Label:hover {
+    background-color: #ddd;
+}
 
     /**********************************************************/
 /* Base for label styling */
