@@ -78,7 +78,7 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + '{{#show_controls}}'
     + '<div class="Ldt-EnrichedPlan-ControlMenu">'
     + ' <label for="{{ prefix }}control_menu" class="Ldt-EnrichedPlan-Toggle"></label>'
-    + ' <input type="checkbox" class="Ldt-EnrichedPlan-ControlMenuHome" id="{{ prefix }}control_menu"/>'
+    + ' <input type="checkbox" class="Ldt-EnrichedPlan-ControlMenuHome Ldt-TraceMe" id="{{ prefix }}control_menu"/>'
     + '<ul>'
     + ' <li class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Tabconfig">{{l10n.popup_tabconfig}}</li>'
     + ' <li>'
@@ -86,20 +86,20 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + '  <label for="{{prefix}}featured_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Featured">{{ l10n.featured_notes }}</label>'
     + ' </li>'
     + ' <li>'
-    + '  <input id="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Other" {{#show_other_notes}}checked{{/show_other_notes}} type="checkbox">'
+    + '  <input id="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Other Ldt-TraceMe" {{#show_other_notes}}checked{{/show_other_notes}} type="checkbox">'
     + '  <label for="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Other">{{ l10n.other_notes }}</label>'
     + ' </li>'
     + ' <li>'
-    + '  <input id="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Own" {{#show_own_notes}}checked{{/show_own_notes}} type="checkbox">'
+    + '  <input id="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Own Ldt-TraceMe" {{#show_own_notes}}checked{{/show_own_notes}} type="checkbox">'
     + '  <label for="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Own">{{ l10n.own_notes }}</label>'
     + ' </li>'
     + ' <li>'
-    + '  <input id="{{prefix}}quiz_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Quiz" {{#show_quiz_notes}}checked{{/show_quiz_notes}} type="checkbox">'
+    + '  <input id="{{prefix}}quiz_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Quiz Ldt-TraceMe" {{#show_quiz_notes}}checked{{/show_quiz_notes}} type="checkbox">'
     + '  <label for="{{prefix}}quiz_notes_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Quiz">{{ l10n.quiz_notes }}</label>'
     + ' </li>'
     + '{{^flat_mode}}'
     + ' <li>'
-    + '  <input id="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Slide-Display" {{#show_slides}}checked{{/show_slides}} type="checkbox">'
+    + '  <input id="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Slide-Display Ldt-TraceMe" {{#show_slides}}checked{{/show_slides}} type="checkbox">'
     + '  <label for="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Slide-Display">{{ l10n.slides }}<br/>&nbsp;</label>'
     + ' </li>'
     + '{{/flat_mode}}'
@@ -210,7 +210,7 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     });
     _this.container.on("click", ".Ldt-EnrichedPlan-Control-Checkbox", function () {
         var classname = _.first(_.filter(this.classList, function (s) {
-            return s != "Ldt-EnrichedPlan-Control-Checkbox";
+            return s != "Ldt-EnrichedPlan-Control-Checkbox" && s.indexOf("Ldt-EnrichedPlan") == 0;
         }));
         if (classname !== undefined) {
             if (IriSP.jQuery(this).is(':checked')) {
@@ -320,6 +320,7 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
     var inputField = _this.container.find(".Ldt-EnrichedPlan-Search-Input");
     inputField.length && inputField.on('onsearch' in inputField[0] ? "search" : "keyup", function () {
         var q = IriSP.jQuery(this).val().toLocaleLowerCase();
+        _this.player.trigger("EnrichedPlan.filter", q);
         if (q === "") {
             // Show all
             IriSP.jQuery(".Ldt-EnrichedPlan-Content").unmark().find(".non_matching").removeClass("non_matching");
