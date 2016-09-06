@@ -86,20 +86,20 @@ IriSP.Widgets.EnrichedPlan.prototype.template =
     + '  <label for="{{prefix}}featured_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Featured">{{ l10n.featured_notes }}</label>'
     + ' </li>'
     + ' <li>'
-    + '  <input id="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Other Ldt-TraceMe" {{#show_other_notes}}checked{{/show_other_notes}} type="checkbox">'
+    + '  <input id="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Other" {{#show_other_notes}}checked{{/show_other_notes}} type="checkbox">'
     + '  <label for="{{prefix}}other_note_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Other">{{ l10n.other_notes }}</label>'
     + ' </li>'
     + ' <li>'
-    + '  <input id="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Own Ldt-TraceMe" {{#show_own_notes}}checked{{/show_own_notes}} type="checkbox">'
+    + '  <input id="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Own" {{#show_own_notes}}checked{{/show_own_notes}} type="checkbox">'
     + '  <label for="{{prefix}}own_notes_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Own">{{ l10n.own_notes }}</label>'
     + ' </li>'
     + ' <li>'
-    + '  <input id="{{prefix}}quiz_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Quiz Ldt-TraceMe" {{#show_quiz_notes}}checked{{/show_quiz_notes}} type="checkbox">'
+    + '  <input id="{{prefix}}quiz_notes_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Note-Quiz" {{#show_quiz_notes}}checked{{/show_quiz_notes}} type="checkbox">'
     + '  <label for="{{prefix}}quiz_notes_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Note-Quiz">{{ l10n.quiz_notes }}</label>'
     + ' </li>'
     + '{{^flat_mode}}'
     + ' <li>'
-    + '  <input id="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Slide-Display Ldt-TraceMe" {{#show_slides}}checked{{/show_slides}} type="checkbox">'
+    + '  <input id="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Checkbox Ldt-EnrichedPlan-Slide-Display" {{#show_slides}}checked{{/show_slides}} type="checkbox">'
     + '  <label for="{{prefix}}slide_display_checkbox" class="Ldt-EnrichedPlan-Control-Label Ldt-EnrichedPlan-Slide-Display">{{ l10n.slides }}<br/>&nbsp;</label>'
     + ' </li>'
     + '{{/flat_mode}}'
@@ -218,11 +218,13 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
                 if (_this.bar) {
                     _this.bar.find("." + classname).removeClass("filtered_out");
                 }
+                _this.player.trigger("EnrichedPlan.SettingCheck", classname);
             } else {
                 _this.content.find(".Ldt-EnrichedPlan-Slide ." + classname).addClass("filtered_out");
                 if (_this.bar) {
                     _this.bar.find("." + classname).addClass("filtered_out");
                 }
+                _this.player.trigger("EnrichedPlan.SettingUncheck", classname);
             }
         }
     });
