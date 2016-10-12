@@ -401,6 +401,7 @@ label:hover:before {
     background-color: #ededed;
 }
 
+.Ldt-EnrichedPlan-Comment-Edit,
 .Ldt-EnrichedPlan-EditControl span {
     display: inline-block;
     width: 24px;
@@ -411,15 +412,21 @@ label:hover:before {
     background-repeat: no-repeat;
 }
 
+.Ldt-EnrichedPlan-Comment-Edit {
+    position: absolute;
+    right: 2px;
+}
+
+.Ldt-EnrichedPlan-Comment-Edit,
 .Ldt-EnrichedPlan-EditControl-Edit {
-    background: url(img/notes_edit.svg);
+    background-image: url(img/notes_edit.svg);
 }
 
 .Ldt-EnrichedPlan-EditControl-Featured {
-    background: url(img/notes_featured.svg);
+    background-image: url(img/notes_featured.svg);
 }
 .Ldt-EnrichedPlan-EditControl-Delete {
-    background: url(img/notes_delete.svg);
+    background-image: url(img/notes_delete.svg);
 }
 
 .Ldt-EnrichedPlan-Selected-Timecode,
