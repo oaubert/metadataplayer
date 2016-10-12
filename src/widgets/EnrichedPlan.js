@@ -504,7 +504,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                     comments: a.meta['coco:comments'],
                     filtered: ((cat == 'Own' && !_this.show_own_notes)
                                 || (cat == 'Other' && !_this.show_other_notes)
-                                || (cat == 'Featured' && !_this.show_featured_notes)
+                                || (a.meta['coco:featured'] && !_this.show_featured_notes)
                                || (cat == 'Quiz' && !_this.show_quiz_notes)
                               ) ? 'filtered_out' : ''
                 };
