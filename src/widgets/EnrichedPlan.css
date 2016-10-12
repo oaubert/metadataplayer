@@ -488,6 +488,12 @@ label:hover:before {
     padding-left: 1em;
 }
 
+.Ldt-EnrichedPlan-Comment {
+    background-color: #fafafa;
+    margin: 3px;
+    min-height: 32px;
+}
+
 .Ldt-EnrichedPlan-Comment-New.Ldt-EnrichedPlan-Expanded {
     display: inline-flex;
 }
