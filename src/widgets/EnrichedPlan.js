@@ -157,7 +157,7 @@ IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate =
       <span class="Ldt-EnrichedPlan-Comment-Date">{{modified|slice:10}}</span>\
       <span class="Ldt-EnrichedPlan-Comment-Author">{{creator}}</span>\
       {{#can_edit}}\
-         <span data-id="{{id}}" class="Ldt-EnrichedPlan-Comment-Edit"></span>\
+         <span data-id="{{id}}" data-annotation_id="{{annotation_id}}" class="Ldt-EnrichedPlan-Comment-Edit"></span>\
       {{/can_edit}}\
     </div>\
     {{/comments}}\
@@ -243,9 +243,12 @@ IriSP.Widgets.EnrichedPlan.prototype.init_component = function () {
             _this.player.trigger("Annotation.delete", this.dataset.id);
         }
     });
+    _this.container.on("click", ".Ldt-EnrichedPlan-Comment-Edit", function () {
+        _this.player.trigger("Comment.edit", { comment_id: this.dataset.id,
+                                               parent_annotation_id: this.dataset.annotation_id });
+    });
 
     function add_comment(annotation_id, text) {
-        console.log("Commenting ", annotation_id, text);
         IriSP.jQuery.ajax({
             url: _this.action_url("add_comment", annotation_id),
             timeout: 2000,
@@ -479,6 +482,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                 var cat = note_category(a);
                 var annData = {
                     id: a.id,
+                    annotation_id: a.id,
                     l10n: _this.l10n,
                     media_id: a.media.id,
                     text: IriSP.textFieldHtml(a.getTitleOrDescription()),
