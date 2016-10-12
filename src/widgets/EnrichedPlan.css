@@ -401,6 +401,14 @@ label:hover:before {
     background-color: #ededed;
 }
 
+.Ldt-EnrichedPlan-Comment-Content {
+    display: inline-block;
+    width: 100%;
+}
+.Ldt-EnrichedPlan-Comment-Content.editable {
+    width: calc(100% - 30px);
+}
+
 .Ldt-EnrichedPlan-Comment-Edit,
 .Ldt-EnrichedPlan-EditControl span {
     display: inline-block;

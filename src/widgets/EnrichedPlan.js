@@ -153,11 +153,13 @@ IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate =
   <div class="Ldt-EnrichedPlan-Comments" data-id="{{id}}" data-length="{{comments.length}}">\
     {{#comments}}\
     <div class="Ldt-EnrichedPlan-Comment" data-id="{{id}}" data-date="{{modified}}" data-creator="{{creator}}">\
-      <span class="Ldt-EnrichedPlan-Comment-Description">{{description}}</span>\
-      <span class="Ldt-EnrichedPlan-Comment-Date">{{modified|slice:10}}</span>\
-      <span class="Ldt-EnrichedPlan-Comment-Author">{{creator}}</span>\
+      <div class="Ldt-EnrichedPlan-Comment-Content {{#can_edit}}editable{{/can_edit}}"> \
+        <span class="Ldt-EnrichedPlan-Comment-Description">{{description}}</span>\
+        <span class="Ldt-EnrichedPlan-Comment-Date">{{modified|slice:10}}</span>\
+        <span class="Ldt-EnrichedPlan-Comment-Author">{{creator}}</span>\
+      </div> \
       {{#can_edit}}\
-         <span data-id="{{id}}" data-annotation_id="{{annotation_id}}" class="Ldt-EnrichedPlan-Comment-Edit"></span>\
+      <span data-id="{{id}}" data-annotation_id="{{annotation_id}}" class="Ldt-EnrichedPlan-Comment-Edit"></span>\
       {{/can_edit}}\
     </div>\
     {{/comments}}\
