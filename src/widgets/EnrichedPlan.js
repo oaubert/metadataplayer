@@ -148,7 +148,7 @@ IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate =
   </div>{{/is_admin}}\
   {{#show_comments}}\
   {{#comments.length}}\
-  <span class="Ldt-EnrichedPlan-Comments-Count" data-count="{{comments.length}}">{{comments.length}} {{l10n.comment_count}}</span>\
+  <span class="Ldt-EnrichedPlan-Comments-Count" title="{{comments.length}} {{l10n.comment_count}}" data-count="{{comments.length}}">{{comments.length}}</span>\
   {{/comments.length}}\
   <div class="Ldt-EnrichedPlan-Comments" data-id="{{id}}" data-length="{{comments.length}}">\
     {{#comments}}\
