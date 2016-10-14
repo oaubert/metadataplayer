@@ -135,7 +135,7 @@ IriSP.Widgets.EnrichedPlan.prototype.slideBarTemplate =
     + '</div>';
 
 IriSP.Widgets.EnrichedPlan.prototype.annotationTemplate =
-      '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begin_ms}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Note-Featured{{/featured}} Ldt-TraceMe" trace-info="annotation-id:{{id}}, media-id:{{media_id}}"> \
+      '<div title="{{ begin }} - {{ atitle }}" data-id="{{ id }}" data-timecode="{{begin_ms}}" class="Ldt-EnrichedPlan-SlideItem Ldt-EnrichedPlan-Note {{category}} {{filtered}} {{#selected}}Ldt-EnrichedPlan-Selected-Timecode{{/selected}} Ldt-EnrichedPlan-{{visibility}} {{#featured}}Ldt-EnrichedPlan-Note-Featured{{/featured}} Ldt-TraceMe" trace-info="annotation-id:{{id}}, media-id:{{media_id}}"> \
   <div class="Ldt-EnrichedPlan-NoteTimecode">{{ begin }}</div>\
   <a class="Ldt-EnrichedPlan-Note-Link" href="{{ url }}"><span class="Ldt-EnrichedPlan-Note-Text">{{{ text }}}</span></a> \
   <span class="Ldt-EnrichedPlan-Note-Author">{{ creator }}</span> \
@@ -410,7 +410,12 @@ IriSP.Widgets.EnrichedPlan.prototype.get_slides = function () {
 IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
     var _this = this;
     var _slides = this.get_slides();
+    var selected_annotation = null;
 
+    var match = document.location.hash.match(/id=([0-9a-f-]+)/);
+    if (match !== null) {
+        selected_annotation = match[1];
+    }
     var _annotations = this.media.getAnnotations().filter(function (a) {
         return a.getAnnotationType().title != _this.annotation_type;
     }).sortBy(function (_annotation) {
@@ -485,6 +490,7 @@ IriSP.Widgets.EnrichedPlan.prototype.update_content = function () {
                 var annData = {
                     id: a.id,
                     annotation_id: a.id,
+                    selected: (a.id == selected_annotation),
                     l10n: _this.l10n,
                     media_id: a.media.id,
                     text: IriSP.textFieldHtml(a.getTitleOrDescription()),
